@@ -11,23 +11,14 @@ function blockFunc.drawBlock(blockID, x, y, blocks)
   love.graphics.polygon("fill", x - 5, 720 - (y - 5), x + 5, 720 - (y - 5), x + 5, 720 - (y + 5), x - 5, 720 - (y + 5))
 end
 
-function blockFunc.getID(block)
+function blockFunc.getID(block, blocks)
 
-  local ID
-  if block == "air" then
-    ID = 0
-  elseif block == "cobble" then
-    ID = 1
-  elseif block == "stone" then
-    ID = 2
-  elseif block == "bedrock" then
-    ID = 3
-  elseif block == "dirt" then
-    ID = 4
-  elseif block == "grass" then
-    ID = 5
+  local ID = nil
+  for i = 1, #blocks do
+    if blocks[i]["name"] == block then
+      ID = i
+    end
   end
-
   return ID
 end
 

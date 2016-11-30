@@ -1,6 +1,6 @@
 worldGen = {}
 
-function worldGen.cave(x, y, dir, size, world)
+function worldGen.cave(x, y, dir, size, block, blocks, world)
 
   local cirGoal = 5
   local cirSize = 5
@@ -12,7 +12,7 @@ function worldGen.cave(x, y, dir, size, world)
     dir = dir + dirInc
     dirInc = dirInc + math.random(-1, 1)
 
-    world = worldGen.circle(x, y, cirSize, world)
+    world = worldGen.circle(x, y, cirSize, block, blocks, world)
 
      x = x + math.sin(dir)
      y = y + math.cos(dir)
@@ -44,13 +44,15 @@ function worldGen.cave(x, y, dir, size, world)
 
 end
 
-function worldGen.circle(x, y, cirSize, world)
+function worldGen.circle(x, y, cirSize, block, blocks, world)
 
   for c = 1, cirSize * 2 * math.pi do
     for r = 1, cirSize do
       --print("X: " .. math.floor( x + math.sin(c) * r ) * r .. ", Y: " .. math.floor( y + math.cos(c) * r ) .. ", R:" .. r .. ", C: " .. c) --debug code
       --print(world[0]) --debug code
-      world[ math.floor( x + math.sin(c) * r ) ][ math.floor( y + math.sin(c) * r ) ] = { name = "air", ID = 0 }
+      if world[ math.floor( x + math.sin(c) * r ) ] ~= nil then if world[ math.floor( x + math.sin(c) * r ) ][ math.floor( y + math.sin(c) * r ) ] ~= nil then
+        world[ math.floor( x + math.sin(c) * r ) ][ math.floor( y + math.sin(c) * r ) ] = { name = block, ID = blockFunc.getID(block, blocks) }
+      end end
     end
   end
 
@@ -58,7 +60,7 @@ function worldGen.circle(x, y, cirSize, world)
 
 end
 
-function worldGen.genarate(biome)
+function worldGen.genarate(biome, blocks)
 
   local world = {}
   local yDist1 = 0
@@ -140,8 +142,24 @@ function worldGen.genarate(biome)
 
   end
 
+ --[[
 
-  world = worldGen.cave(0, 25, 90, 100, world)
+
+  for x = -1000, 1000 do
+    for y = 1, 750 do
+
+      if math.random(1, biome.caveRarity) == 1 and world[x][y]["ID"] == 2 then
+        world = worldGen.cave(x, y, math.random(1, 360), math.random(150,2000), "air", blocks, world)
+      end
+
+      if math.random(1, biome.lakeRarity) == 1 and world[x][y]["ID"] == 2 then
+        world = worldGen.cave(x, y, math.random(1, 360), math.random(150,2000), "water", blocks, world)
+      end
+
+    end
+  end
+
+  ]] 
 
   --print("id:" .. world[x][y]["id"] .. ", blockName:" .. world[x][y]["name"]) --debug code
   return world

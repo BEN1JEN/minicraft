@@ -25,14 +25,17 @@ function love.load()
   playerVX = 0
   playerVY = 0
   health, inventory = 255, {}
+  fps = 60
+  r = 0
+  fallDist = 0
 
   --declare blocks
 
-  blockDeclaration.makeBlocks()
+  blocks = blockDeclaration.makeBlocks()
 
   --genarate world
   world = {}
-  world = worldGen.genarate(biomes.getBiome("plains"))
+  world = worldGen.genarate(biomes.getBiome("plains"), blocks)
 
   --set player location
   player.placePlayer(world)
@@ -49,10 +52,16 @@ function love.update(dt)
     end
   end
 
-  print("updateing fps:" .. 1/dt) -- debug code
+  if r == fps/2 then
+    fps = 1/dt
+    r = 0
+  end
+  r = r + 1
   if state == "game" then
 
-    player.movePlayer(PlayerX, playerY, playerVX, playerVY, world, dt)
+    fallDist, health, playerX, playerY, playerVX, playerVY = player.movePlayer(fallDist, health, playerX, playerY, playerVX, playerVY, world, dt)
+
+    if health < 1 then error("dead") end
 
   end
 
@@ -67,10 +76,14 @@ function love.draw()
   end
 
   if state == "game" then
+    fps = math.floor(fps/2)*2
+
     love.graphics.setColor(66, 173, 173, 255)
     love.graphics.polygon("fill", 0, 0, 1024, 0, 1024, 720, 0, 720)
-    draw.drawWorldOld(world, blocks)
+    draw.drawWorldOld(world, blocks, playerX, playerY)
 
-    draw.drawHUD(health, inventory, playerX, playerY)
+    draw.drawPlayer()
+
+    draw.drawHUD(health, inventory)
   end
 end

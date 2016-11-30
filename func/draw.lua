@@ -1,6 +1,6 @@
 draw = {}
 
-function draw.drawWorldOld(world, blocks)
+function draw.drawWorldOld(world, blocks, playerX, playerY)
 
 local block = ""
 
@@ -11,7 +11,7 @@ local block = ""
 
       if world[math.floor(playerX) + xShift] ~= nil and world[math.floor(playerX) + xShift][math.floor(playerY) + yShift] ~= nil then
         block = world[math.floor(playerX) + xShift][math.floor(playerY) + yShift]["name"]
-        blockFunc.drawBlock(blockFunc.getID(block), xShift, yShift, blocks)
+        blockFunc.drawBlock(blockFunc.getID(block, blocks), xShift, yShift, blocks)
       end
 
     end
@@ -33,15 +33,25 @@ function draw.drawWorld(world, blocks)
 
 end
 
-function draw.drawHUD(health, inventory, playerX, playerY)
+function draw.drawHUD(health, inventory)
 
   love.graphics.setColor(255, 255, 255, 255)
   love.graphics.rectangle("fill", 0, 0, 257, 12)
   love.graphics.setColor(255, 0, 0, 255)
-  love.graphics.print(health, 258, 0)
-  for i = 1, health do
+  love.graphics.print(math.floor(health), 258, 0)
+  for i = 1, math.floor(health) do
     love.graphics.line(i, 0, i, 10)
   end
+  love.graphics.setColor(200, 200, 200, 255)
+  love.graphics.print(fps, 500, 0)
+
+end
+
+function draw.drawPlayer()
+
+
+  love.graphics.setColor(255, 0, 0, 255)
+  love.graphics.polygon("fill", 1024/2 + 5, 720/2 + 5, 1024/2 + 5, 720/2 - 5, 1024/2 - 5, 720/2 - 5, 1024/2 - 5, 720/2 + 5)
 
 end
 

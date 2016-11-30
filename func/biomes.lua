@@ -4,8 +4,10 @@ function biomes.getBiome(biome)
 
   if biome == "plains" then
     ret = {
+      caveRarity = 1000,
+      lakeRarity = 10000,
       yInt = 0.05,
-      xInt = 1,
+      xInt = 2,
       biome1Min = 40,
       biome1Max = 45,
       biome2Min = 3,
@@ -22,6 +24,8 @@ function biomes.getBiome(biome)
     }
   elseif biome == "old" then
     ret = {
+      caveRarity = 7500,
+      lakeRarity = 5000,
       yInt = 0.5,
       xInt = 1,
       biome1Min = 40,
