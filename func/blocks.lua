@@ -22,4 +22,4 @@ function blockFunc.getID(block, blocks)
   return ID
 end
 
-return blocksFunc
+return blockFunc

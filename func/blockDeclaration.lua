@@ -27,6 +27,8 @@ end
 
 function blockDeclaration.declareBlock ( blocks, name, id, colour )
   blocks[id] = { name = name, colour = colour }
+  
+  return blocks
 end
 
 return blockDeclaration

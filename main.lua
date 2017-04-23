@@ -4,11 +4,13 @@ function love.load()
 
   --requirements
   local worldGen = require "func.worldGen"
-  local blocksFunc = require "func.blocks"
+  local blockFunc = require "func.blocks"
+  local itemFunc = require "func.item"
   local draw = require "func.draw"
   local biomes = require "func.biomes"
   local player = require "func.player"
   local blockDeclaration = require "func.blockDeclaration"
+  local itemDeclaration = require "func.itemDeclaration"
   local inventoryFunc = require "func.inventory"
 
   print(inventoryFunc)
@@ -34,8 +36,8 @@ function love.load()
   invOpen = true
   itemGrabed = false
 
-  --declare blocks
-
+  --declare blocks and items
+  items = itemDeclaration.makeItems()
   blocks = blockDeclaration.makeBlocks()
 
   --genarate world
@@ -44,6 +46,9 @@ function love.load()
 
   --set player location
   player.placePlayer(world)
+
+  -- initalize inventorty
+  inventory = inventoryFunc.init(inventory)
 
 print("done loading")
 
@@ -70,6 +75,8 @@ function love.update(dt)
 
     if health < 1 then error("dead") end
 
+    itemGrabed, invOpen, inventory = inventoryFunc.update(itemGrabed, invOpen, inventory)
+
   end
 
   -- print ("done") --debug code
@@ -95,7 +102,7 @@ function love.draw()
 
     draw.drawPlayer()
     -- print("3/4") --debug code
-    draw.drawHUD(health, inventory, invOpen, itemGrabed)
+    draw.drawHUD(health, inventory, invOpen, itemGrabed, items)
   end
 
   -- print("4/4\ndone") --debug code
