@@ -69,7 +69,29 @@ function inventoryFunc.update(itemGrabed, invOpen, inventory)
     eDownLast = false
   end
 
+  if love.keyboard.isDown("escape") then invOpen = false end
+
   return itemGrabed, invOpen, inventory
+
+end
+
+function inventoryFunc.drawHotbar(inventory, itemGrabed, items)
+
+    local mouseX, mouseY = love.mouse.getPosition()
+    local itemX, itemY = ((mouseX+300)/40-15), 6-((mouseY+240)/40-12)
+    local itemRealX, itemRealY = math.floor((mouseX+20)/40+.5)*40-20, math.floor((mouseY+20)/40+.5)*40-20
+
+    love.graphics.setColor(128,128,128,255)
+    love.graphics.polygon( "fill", 720, 680, 720, 720, 320, 720, 320, 680 )
+
+    love.graphics.setColor(255, 255, 255, 128)
+    if itemRealX >= 340 and itemRealY >= 680 and itemRealX <= 700 and itemRealY <= 720 then
+      love.graphics.polygon( "fill", itemRealX+20, itemRealY+20, itemRealX+20, itemRealY-20, itemRealX-20, itemRealY-20, itemRealX-20, itemRealY+20 )
+    end
+
+    for x = 1, 10 do
+      itemFunc.drawItem(inventory[x][1], x, -5.5, items)
+    end
 
 end
 

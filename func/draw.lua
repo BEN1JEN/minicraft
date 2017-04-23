@@ -48,6 +48,7 @@ function draw.drawHUD(health, inventory, invOpen, itemGrabed, items)
   if invOpen then
     inventoryFunc.draw(invOpen, inventory, itemGrabed, items)
   end
+  inventoryFunc.drawHotbar(inventory, itemGrabed, items)
 
 end
 
