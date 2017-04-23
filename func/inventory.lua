@@ -1,16 +1,17 @@
 inventoryFunc = {}
 
-function inventoryFunc.draw(invOpen, inventory, items)
+function inventoryFunc.draw(invOpen, inventory, itemGrabed, items)
 
   local mouseX, mouseY = love.mouse.getPosition()
+  local itemX, itemY = ((mouseX+300)/40-15), 6-((mouseY+240)/40-12)
+  local itemRealX, itemRealY = math.floor((mouseX+20)/40+.5)*40-20, math.floor((mouseY)/40+.5)*40
 
   love.graphics.setColor(128,128,128,255)
   love.graphics.polygon( "fill", 720, 260, 720, 460, 320, 460, 320, 260 )
 
   love.graphics.setColor(255, 255, 255, 128)
-  local itemX, itemY = math.floor((mouseX+20)/40+.5)*40-20, math.floor((mouseY)/40+.5)*40
-  if itemX >= 340 and itemY >= 280 and itemX <= 700 and itemY <= 440 then
-    love.graphics.polygon( "fill", itemX+20, itemY+20, itemX+20, itemY-20, itemX-20, itemY-20, itemX-20, itemY+20 )
+  if itemRealX >= 340 and itemRealY >= 280 and itemRealX <= 700 and itemRealY <= 440 then
+    love.graphics.polygon( "fill", itemRealX+20, itemRealY+20, itemRealX+20, itemRealY-20, itemRealX-20, itemRealY-20, itemRealX-20, itemRealY+20 )
   end
 
   for x = 1, 10 do
@@ -18,6 +19,8 @@ function inventoryFunc.draw(invOpen, inventory, items)
       itemFunc.drawItem(inventory[x][y], x, y, items)
     end
   end
+
+  itemFunc.drawItem(itemGrabed, itemX, itemY, items)
 
 end
 
@@ -44,10 +47,9 @@ function inventoryFunc.update(itemGrabed, invOpen, inventory)
 
     local mouseX, mouseY = love.mouse.getPosition()
     local itemX, itemY = (math.floor((mouseX+320)/40)-15), 6-(math.floor((mouseY+260)/40)-12)
-    print(itemX,itemY)
     if love.mouse.isDown(1) then
 
-      if not(mDownLast) and mouseX >= 340 and mouseY >= 280 and mouseX <= 700 and mouseY <= 440 then
+      if not(mDownLast) and mouseX >= 320 and mouseY >= 260 and mouseX <= 720 and mouseY <= 460 then
         local tmp = itemGrabed
         itemGrabed = inventory[itemX][itemY]
         inventory[itemX][itemY] = tmp
