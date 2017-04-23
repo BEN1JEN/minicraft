@@ -12,6 +12,7 @@ function love.load()
   local blockDeclaration = require "func.blockDeclaration"
   local itemDeclaration = require "func.itemDeclaration"
   local inventoryFunc = require "func.inventory"
+  local worldInteraction = require "func.worldInteraction"
 
   print(inventoryFunc)
 
@@ -35,6 +36,7 @@ function love.load()
   fallDist = 0
   invOpen = true
   itemGrabed = 0
+  hotBarSelect = 1
 
   --declare blocks and items
   items = itemDeclaration.makeItems()
@@ -76,6 +78,10 @@ function love.update(dt)
     if health < 1 then error("dead") end
 
     itemGrabed, invOpen, inventory = inventoryFunc.update(itemGrabed, invOpen, inventory)
+
+    if not(invOpen) then
+      world, inventory = worldInteraction.update(hotBarSelect, world, inventory, blocks, items, playerX, playerY)
+    end
 
   end
 
