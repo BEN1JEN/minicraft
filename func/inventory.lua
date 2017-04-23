@@ -33,7 +33,7 @@ function inventoryFunc.init(inventory)
     end
   end
 
-  inventory[10][1] = 5
+  inventory[10][5] = 5
 
   return inventory
 
@@ -43,13 +43,20 @@ function inventoryFunc.update(itemGrabed, invOpen, inventory)
   if invOpen then
 
     local mouseX, mouseY = love.mouse.getPosition()
+    local itemX, itemY = (math.floor((mouseX+320)/40)-15), 6-(math.floor((mouseY+260)/40)-12)
+    print(itemX,itemY)
+    if love.mouse.isDown(1) then
 
-    if love.mouse.isDown() and mouseX >= 340 and mouseY >= 280 and mouseX <= 700 and mouseY <= 440 then
-      local tmp = itemGrabed
-      local itemX, itemY = math.floor((mouseX+320)/40)-15, math.floor((mouseY+260)/40)-12
-      itemGrabed = inventory[itemX][itemY]
-      inventory[itemX][itemY] = tmp
+      if not(mDownLast) and mouseX >= 340 and mouseY >= 280 and mouseX <= 700 and mouseY <= 440 then
+        local tmp = itemGrabed
+        itemGrabed = inventory[itemX][itemY]
+        inventory[itemX][itemY] = tmp
+      end
+      mDownLast = true
+    else
+      mDownLast = false
     end
+
 
   end
 

@@ -34,7 +34,7 @@ function love.load()
   r = 0
   fallDist = 0
   invOpen = true
-  itemGrabed = false
+  itemGrabed = 0
 
   --declare blocks and items
   items = itemDeclaration.makeItems()
