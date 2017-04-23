@@ -3,7 +3,7 @@ blockDeclaration = {}
 function blockDeclaration.makeBlocks()
 
   blocks = {}
-  for id = 1, 65535 do
+  for id = 0, 65535 do
     blocks[id] = {
       name = "",
       id = id,
@@ -13,7 +13,7 @@ function blockDeclaration.makeBlocks()
 
   --Declare blocks
 
-  blockDeclaration.declareBlock( blocks, "air", 255, { red=0, green=0, blue=0, alpha=0 } )
+  blockDeclaration.declareBlock( blocks, "air", 0, { red=0, green=0, blue=0, alpha=0 } )
   blockDeclaration.declareBlock( blocks, "cobble", 1, { red=51, green=51, blue=51, alpha=255 } )
   blockDeclaration.declareBlock( blocks, "stone", 2, { red=85, green=85, blue=85, alpha=255 } )
   blockDeclaration.declareBlock( blocks, "bedrock", 3, { red=0, green=0, blue=0, alpha=255 } )

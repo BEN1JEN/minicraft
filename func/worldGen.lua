@@ -159,7 +159,7 @@ function worldGen.genarate(biome, blocks)
     end
   end
 
-  ]] 
+  ]]
 
   --print("id:" .. world[x][y]["id"] .. ", blockName:" .. world[x][y]["name"]) --debug code
   return world

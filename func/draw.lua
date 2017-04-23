@@ -7,12 +7,13 @@ local block = ""
   for xShift = -52, 52 do
     for yShift = -36, 36 do
 
-      --print("x, y: " .. playerX + xShift .. ", " .. playerY + yShift) -- debug code
+      -- print("x, y: " .. playerX + xShift .. ", " .. playerY + yShift) -- debug code
 
-      if world[math.floor(playerX) + xShift] ~= nil and world[math.floor(playerX) + xShift][math.floor(playerY) + yShift] ~= nil then
-        block = world[math.floor(playerX) + xShift][math.floor(playerY) + yShift]["name"]
-        blockFunc.drawBlock(blockFunc.getID(block, blocks), xShift, yShift, blocks)
-      end
+      --if world[math.floor(playerX) + xShift] ~= nil and world[math.floor(playerX) + xShift][math.floor(playerY) + yShift] ~= nil then
+        block = world[math.floor(playerX) + xShift][math.floor(playerY) + yShift]["ID"]
+        print(block)
+        blockFunc.drawBlock(block, xShift, yShift, blocks)
+      --end
 
     end
   end
@@ -44,6 +45,9 @@ function draw.drawHUD(health, inventory)
   end
   love.graphics.setColor(200, 200, 200, 255)
   love.graphics.print(fps, 500, 0)
+  if invOpen then
+    --inventory.draw()
+  end
 
 end
 

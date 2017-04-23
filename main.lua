@@ -46,6 +46,8 @@ end
 
 function love.update(dt)
 
+  print("updateing")
+
   if state == "title" then
     if love.keyboard.isDown("return") then
       state = "game"
@@ -65,10 +67,12 @@ function love.update(dt)
 
   end
 
+  print ("done")
+
 end
 
 function love.draw()
-  --print("drawing") --debug code
+  print("drawing") --debug code
 
   if state == "title" then
     love.graphics.draw(Background, 0, 0, 0, 1.2, 1.5)
@@ -80,10 +84,15 @@ function love.draw()
 
     love.graphics.setColor(66, 173, 173, 255)
     love.graphics.polygon("fill", 0, 0, 1024, 0, 1024, 720, 0, 720)
+    print ("1/4") --debug code
     draw.drawWorldOld(world, blocks, playerX, playerY)
+    print("2/4") --debug code
 
     draw.drawPlayer()
-
+    print("3/4") --debug code
     draw.drawHUD(health, inventory)
   end
+
+  print("4/4\ndone") --debug code
+
 end

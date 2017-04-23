@@ -14,7 +14,7 @@ end
 function blockFunc.getID(block, blocks)
 
   local ID = nil
-  for i = 1, #blocks do
+  for i = 0, #blocks do
     if blocks[i]["name"] == block then
       ID = i
     end
