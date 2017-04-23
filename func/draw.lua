@@ -11,7 +11,7 @@ local block = ""
 
       --if world[math.floor(playerX) + xShift] ~= nil and world[math.floor(playerX) + xShift][math.floor(playerY) + yShift] ~= nil then
         block = world[math.floor(playerX) + xShift][math.floor(playerY) + yShift]["ID"]
-        print(block)
+        -- print(block) -- debug code
         blockFunc.drawBlock(block, xShift, yShift, blocks)
       --end
 
@@ -34,7 +34,7 @@ function draw.drawWorld(world, blocks)
 
 end
 
-function draw.drawHUD(health, inventory)
+function draw.drawHUD(health, inventory, invOpen, itemGrabed)
 
   love.graphics.setColor(255, 255, 255, 255)
   love.graphics.rectangle("fill", 0, 0, 257, 12)
@@ -46,7 +46,7 @@ function draw.drawHUD(health, inventory)
   love.graphics.setColor(200, 200, 200, 255)
   love.graphics.print(fps, 500, 0)
   if invOpen then
-    --inventory.draw()
+    inventoryFunc.draw(invOpen, inventory)
   end
 
 end

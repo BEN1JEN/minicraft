@@ -23,7 +23,7 @@ function player.movePlayer(fallDist, health, PlayerX, playerY, playerVX, playerV
   end
 
   if playerVY < 0.00001 and love.keyboard.isDown("w") and world[math.floor(playerX)][math.floor(playerY) - 1]["ID"] ~= 0 then
-    playerVY = playerVY + 5 * dt
+    playerVY = playerVY + 15 * dt
   end
 
   if world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 0 and playerVY < 1 then
@@ -32,15 +32,15 @@ function player.movePlayer(fallDist, health, PlayerX, playerY, playerVX, playerV
     playerVY = playerVY - dt/4
   else
 
-    if fallDist > 10 then
-      health = health - math.floor(fallDist / 8)
+    if fallDist > 1000 then
+      health = health - math.floor(fallDist / 16)
     end
 
     playerVY = 0
 
   end
 
-  print(math.floor(playerX), playerVY, world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)])
+  -- print(math.floor(playerX), playerVY, world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)])
 
   if world[math.floor(playerX + playerVX * dt * 200)][math.floor(playerY)]["ID"] == 0 or  world[math.floor(playerX + playerVX * dt * 200)][math.floor(playerY)]["ID"] == 6 then
     playerX = playerX + playerVX * dt * 200

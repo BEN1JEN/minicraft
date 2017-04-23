@@ -4,11 +4,14 @@ function love.load()
 
   --requirements
   local worldGen = require "func.worldGen"
-  local blocks = require "func.blocks"
+  local blocksFunc = require "func.blocks"
   local draw = require "func.draw"
   local biomes = require "func.biomes"
   local player = require "func.player"
   local blockDeclaration = require "func.blockDeclaration"
+  local inventoryFunc = require "func.inventory"
+
+  print(inventoryFunc)
 
   --math.randomseed
   math.randomseed(os.time())
@@ -28,6 +31,8 @@ function love.load()
   fps = 60
   r = 0
   fallDist = 0
+  invOpen = true
+  itemGrabed = false
 
   --declare blocks
 
@@ -46,7 +51,7 @@ end
 
 function love.update(dt)
 
-  print("updateing")
+  -- print("updateing") --debug code
 
   if state == "title" then
     if love.keyboard.isDown("return") then
@@ -67,12 +72,12 @@ function love.update(dt)
 
   end
 
-  print ("done")
+  -- print ("done") --debug code
 
 end
 
 function love.draw()
-  print("drawing") --debug code
+  -- print("drawing") --debug code
 
   if state == "title" then
     love.graphics.draw(Background, 0, 0, 0, 1.2, 1.5)
@@ -84,15 +89,15 @@ function love.draw()
 
     love.graphics.setColor(66, 173, 173, 255)
     love.graphics.polygon("fill", 0, 0, 1024, 0, 1024, 720, 0, 720)
-    print ("1/4") --debug code
+    -- print ("1/4") --debug code
     draw.drawWorldOld(world, blocks, playerX, playerY)
-    print("2/4") --debug code
+    -- print("2/4") --debug code
 
     draw.drawPlayer()
-    print("3/4") --debug code
-    draw.drawHUD(health, inventory)
+    -- print("3/4") --debug code
+    draw.drawHUD(health, inventory, invOpen, itemGrabed)
   end
 
-  print("4/4\ndone") --debug code
+  -- print("4/4\ndone") --debug code
 
 end
