@@ -35,7 +35,7 @@ function love.load()
   r = 0
   fallDist = 0
   invOpen = true
-  itemGrabed = 0
+  itemGrabed = { ID = 0, amount = 0 }
   hotBarSelect = 1
 
   --declare blocks and items

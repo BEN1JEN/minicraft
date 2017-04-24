@@ -16,11 +16,14 @@ function inventoryFunc.draw(invOpen, inventory, itemGrabed, items)
 
   for x = 1, 10 do
     for y = 1, 5 do
-      itemFunc.drawItem(inventory[x][y], x, y, items)
+      local tmpX, tmpY = x*40-300, 6-(y*40-240)
+      print(tmpX, tmpY)
+      itemFunc.drawItem(inventory[x][y]["ID"], x, y, items)
+      love.graphics.print(tostring(inventory[x][y]["amount"]), tmpX, tmpY)
     end
   end
 
-  itemFunc.drawItem(itemGrabed, itemX, itemY, items)
+  itemFunc.drawItem(itemGrabed["ID"], itemX, itemY, items)
 
 end
 
@@ -32,11 +35,11 @@ function inventoryFunc.init(inventory)
 
   for y = 1, 5 do
     for x = 1, 10 do
-      inventory[x][y] = 0
+      inventory[x][y] = {ID = 0, amount = 0}
     end
   end
 
-  inventory[10][5] = 5
+  inventory[10][5] = { ID = 5, amount = 1}
 
   return inventory
 
@@ -90,7 +93,7 @@ function inventoryFunc.drawHotbar(inventory, itemGrabed, items)
     end
 
     for x = 1, 10 do
-      itemFunc.drawItem(inventory[x][1], x, -5.5, items)
+      itemFunc.drawItem(inventory[x][1]["ID"], x, -5.5, items)
     end
 
 end
