@@ -13,11 +13,12 @@ function love.load()
   local itemDeclaration = require "func.itemDeclaration"
   local inventoryFunc = require "func.inventory"
   local worldInteraction = require "func.worldInteraction"
+  local worldFunc = require "func.worldFunc"
 
   print(inventoryFunc)
 
   --math.randomseed
-  math.randomseed(os.time())
+  math.randomseed(11)
 
   --images
   logo = love.graphics.newImage("assets/minicraftLogo.png")
@@ -44,7 +45,9 @@ function love.load()
 
   --genarate world
   world = {}
-  world = worldGen.genarate(biomes.getBiome("plains"), blocks)
+  world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, -50, 50)
+  world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, 51, 100)
+  world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, 101, 200)
 
   --set player location
   player.placePlayer(world)

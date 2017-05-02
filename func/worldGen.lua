@@ -1,5 +1,10 @@
 worldGen = {}
 
+local yDist1 = 0
+local yDist2 = 0
+local yInc1 = 0
+local yInc2 = 0
+
 function worldGen.cave(x, y, dir, size, block, blocks, world)
 
   local cirGoal = 5
@@ -60,19 +65,19 @@ function worldGen.circle(x, y, cirSize, block, blocks, world)
 
 end
 
-function worldGen.genarate(biome, blocks)
+function worldGen.worldInit()
 
-  local world = {}
-  local yDist1 = 0
-  local yDist2 = 0
-  local yInc1 = 0
-  local yInc2 = 0
 
-  for x = -1000, 1000 do
+
+end
+
+function worldGen.genarate(world, biome, blocks, xMin, xMax)
+
+  for x = xMin, xMax do
     world[x] = {}
   end
 
-  for x = -1000, 1000 do
+  for x = xMin, xMax do
     for y = 0, 1000 do
 
         world[x][y] = { name = "air", ID = 0 }
@@ -81,9 +86,9 @@ function worldGen.genarate(biome, blocks)
     end
   end
 
-  for x = -1000, 1000 do
+  for x = xMin, xMax do
 
-    if x == -1000 then
+    if x == xMin then
       yDist1 = math.random(biome.biome1Min, biome.biome1Max)
       yDist2 = math.random(biome.biome2Min, biome.biome2Max)
     end
