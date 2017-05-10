@@ -1,10 +1,10 @@
 draw = {}
 
-function draw.drawWorldOld(world, blocks, playerX, playerY)
+function draw.drawWorldOld(world, blocks, playerX, playerY, xMax)
 
 local block = ""
 
-  for xShift = -52, 52 do
+  for xShift = xMax*-1, xMax do
     for yShift = -36, 36 do
 
       -- print("x, y: " .. playerX + xShift .. ", " .. playerY + yShift) -- debug code
@@ -52,11 +52,17 @@ function draw.drawHUD(health, inventory, invOpen, itemGrabed, items)
 
 end
 
-function draw.drawPlayer()
+function draw.drawPlayer(fake)
 
+  if not(fake) then
+    love.graphics.setColor(255, 0, 0, 255)
+    love.graphics.polygon("fill", 1024/2 + 5, 720/2 + 5, 1024/2 + 5, 720/2 - 5, 1024/2 - 5, 720/2 - 5, 1024/2 - 5, 720/2 + 5)
+  end
 
-  love.graphics.setColor(255, 0, 0, 255)
-  love.graphics.polygon("fill", 1024/2 + 5, 720/2 + 5, 1024/2 + 5, 720/2 - 5, 1024/2 - 5, 720/2 - 5, 1024/2 - 5, 720/2 + 5)
+  if fake then
+    love.graphics.setColor(255, 0, 0, 255)
+    love.graphics.polygon("fill", 1024/2 + 105, 720/2 + 105, 1024/2 + 105, 720/2 + 95, 1024/2 + 95, 720/2 + 95, 1024/2 + 95, 720/2 + 105)
+  end
 
 end
 

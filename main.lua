@@ -18,7 +18,8 @@ function love.load()
   print(inventoryFunc)
 
   --math.randomseed
-  math.randomseed(11)
+  math.randomseed(os.time())
+  print(os.time())
 
   --images
   logo = love.graphics.newImage("assets/minicraftLogo.png")
@@ -45,9 +46,9 @@ function love.load()
 
   --genarate world
   world = {}
-  world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, -50, 50)
-  world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, 51, 100)
-  world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, 101, 200)
+  world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, -500, 0)
+  world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, 0, 500)
+  world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, 510, 600)
 
   --set player location
   player.placePlayer(world)
@@ -66,6 +67,10 @@ function love.update(dt)
   if state == "title" then
     if love.keyboard.isDown("return") then
       state = "game"
+    end
+    if love.keyboard.isDown("p") then
+      state = "pano"
+      love.window.setMode(3072, 720, {resizable=false, vsync=false, minwidth=3072, minheight=720})
     end
   end
 
@@ -100,18 +105,19 @@ function love.draw()
     love.graphics.draw(logo, 512-(521/2), 100)
   end
 
-  if state == "game" then
+  if state == "game" or state == "pano" then
     fps = math.floor(fps/2)*2
 
     love.graphics.setColor(66, 173, 173, 255)
-    love.graphics.polygon("fill", 0, 0, 1024, 0, 1024, 720, 0, 720)
+    love.graphics.polygon("fill", 0, 0, 3072, 0, 3072, 720, 0, 720)
     -- print ("1/4") --debug code
-    draw.drawWorldOld(world, blocks, playerX, playerY)
+    if state == "pano" then draw.drawWorldOld(world, blocks, playerX, playerY, 260)
+    else draw.drawWorldOld(world, blocks, playerX, playerY, 52) end
     -- print("2/4") --debug code
 
-    draw.drawPlayer()
+    if state ~= "pano" then draw.drawPlayer(false) end
     -- print("3/4") --debug code
-    draw.drawHUD(health, inventory, invOpen, itemGrabed, items)
+    if state ~= "pano" then draw.drawHUD(health, inventory, invOpen, itemGrabed, items) end
   end
 
   -- print("4/4\ndone") --debug code

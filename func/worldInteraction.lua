@@ -35,6 +35,7 @@ function worldInteraction.update(hotBarSelect, world, inventory, blocks, items, 
           for x = 1, 10 do
             if inventory[x][y]["ID"] == 0 and not(placed) then
               inventory[x][y]["ID"] = clickedBlock
+              inventory[x][y]["amount"] = 1
               placed = true
             end
           end

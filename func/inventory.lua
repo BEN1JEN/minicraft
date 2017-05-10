@@ -49,12 +49,28 @@ function inventoryFunc.update(itemGrabed, invOpen, inventory)
 
     local mouseX, mouseY = love.mouse.getPosition()
     local itemX, itemY = (math.floor((mouseX+320)/40)-15), 6-(math.floor((mouseY+260)/40)-12)
-    if love.mouse.isDown(1) then
-
+    if love.mouse.isDown(1) or love.mouse.isDown(2) then
       if not(mDownLast) and mouseX >= 320 and mouseY >= 260 and mouseX <= 720 and mouseY <= 460 then
-        local tmp = itemGrabed
-        itemGrabed = inventory[itemX][itemY]
-        inventory[itemX][itemY] = tmp
+
+        if love.mouse.isDown(1) then
+          if inventory[itemX][itemY]["ID"] ~= itemGrabed["ID"] then
+            print("swap")
+            local tmp = itemGrabed
+            itemGrabed = inventory[itemX][itemY]
+            inventory[itemX][itemY] = tmp
+          elseif inventory[itemX][itemY]["ID"] == itemGrabed["ID"] then
+            print("add")
+            inventory[itemX][itemY]["amount"] = inventory[itemX][itemY]["amount"] + itemGrabed["amount"]
+            itemGrabed["amount"], itemGrabed["ID"], itemGrabed["name"] = 0, 0, ""
+          end
+        elseif love.mouse.isDown(2) then
+          if inventory[itemX][itemY]["ID"] == itemGrabed["ID"] or itemGrabed["ID"] == 0 then
+            print("sub")
+            itemGrabed["ID"] = inventory[itemX][itemY]["ID"]
+            itemGrabed["amount"] = itemGrabed["amount"] + 1
+            inventory[itemX][itemY]["amount"] = inventory[itemX][itemY]["amount"] - 1
+          end
+        end
       end
       mDownLast = true
     else
