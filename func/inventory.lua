@@ -64,11 +64,23 @@ function inventoryFunc.update(itemGrabed, invOpen, inventory)
             itemGrabed["amount"], itemGrabed["ID"], itemGrabed["name"] = 0, 0, ""
           end
         elseif love.mouse.isDown(2) then
-          if inventory[itemX][itemY]["ID"] == itemGrabed["ID"] or itemGrabed["ID"] == 0 then
+          if itemGrabed["ID"] == inventory[itemX][itemY]["ID"] or ( inventory[itemX][itemY]["ID"] == 0 and itemGrabed["ID"] ~= 0 ) then
             print("sub")
+            inventory[itemX][itemY]["ID"] = itemGrabed["ID"]
+            inventory[itemX][itemY]["amount"] = inventory[itemX][itemY]["amount"] + 1
+            itemGrabed["amount"] = itemGrabed["amount"] - 1
+
+            if itemGrabed["amount"] == 0 then itemGrabed["ID"] = 0 itemGrabed["name"] = "" end
+            if inventory[itemX][itemY]["amount"] == 0 then itemGrabed["ID"] = 0 itemGrabed["name"] = "" end
+          elseif itemGrabed["ID"] == 0 and inventory[itemX][itemY]["ID"] ~= 0 then
+            print("dev")
             itemGrabed["ID"] = inventory[itemX][itemY]["ID"]
-            itemGrabed["amount"] = itemGrabed["amount"] + 1
-            inventory[itemX][itemY]["amount"] = inventory[itemX][itemY]["amount"] - 1
+            itemGrabed["amount"] = math.floor(inventory[itemX][itemY]["amount"]/2)
+            inventory[itemX][itemY]["amount"] = math.ceil(inventory[itemX][itemY]["amount"]/2)
+
+            if itemGrabed["amount"] == 0 then itemGrabed["ID"] = 0 itemGrabed["name"] = "" end
+            if inventory[itemX][itemY]["amount"] == 0 then itemGrabed["ID"] = 0 itemGrabed["name"] = "" end
+
           end
         end
       end
