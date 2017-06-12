@@ -48,7 +48,7 @@ function love.load()
   world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, 0, 0)
 
   --set player location
-  player.placePlayer(world)
+  playerX, playerY = player.placePlayer(world)
 
   -- initalize inventorty
   inventory = inventoryFunc.init(inventory)
