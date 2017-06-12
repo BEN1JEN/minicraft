@@ -109,6 +109,7 @@ function love.draw()
 
     love.graphics.setColor(66, 173, 173, 255)
     love.graphics.polygon("fill", 0, 0, 3072, 0, 3072, 720, 0, 720)
+    love.graphics.setColor(255, 255, 255, 255)
     -- print ("1/4") --debug code
     if state == "pano" then draw.drawWorldOld(world, blocks, playerX, playerY, 260)
     else draw.drawWorldOld(world, blocks, playerX, playerY, 52) end

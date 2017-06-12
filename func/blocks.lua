@@ -10,7 +10,8 @@ function blockFunc.drawBlock(blockID, x, y, blocks)
 
   --print("drawing block at x,y: " .. x .. ", " .. y .. " ID: " .. blockID) -- debug code
 
-  love.graphics.draw(image, x, 720-y, 0, sx, sy, ox, oy, kx, ky)
+  if blockID == 6 then love.graphics.setColor(255, 255, 255, 128) end
+  if blockID ~= 0 then love.graphics.draw(image, x, 720-y, 0, 1, 1, 5, 5) end
   --love.graphics.polygon("fill", x - 5, 720 - (y - 5), x + 5, 720 - (y - 5), x + 5, 720 - (y + 5), x - 5, 720 - (y + 5)) -- legacy only
 
 end
