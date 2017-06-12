@@ -23,6 +23,11 @@ function blockDeclaration.makeBlocks()
   blockDeclaration.declareBlock( blocks, "water", 6, { red=5, green=15, blue=255, alpha=255 }, nil )
   blockDeclaration.declareBlock( blocks, "log", 7, { red=5, green=15, blue=255, alpha=255 }, 7 )
   blockDeclaration.declareBlock( blocks, "leaves", 8, { red=5, green=15, blue=255, alpha=255 }, 9 )
+  blockDeclaration.declareBlock( blocks, "coalOre", 10, { red=85, green=85, blue=85, alpha=255 }, 15 )
+  blockDeclaration.declareBlock( blocks, "copperOre", 11, { red=85, green=85, blue=85, alpha=255 }, 11 )
+  blockDeclaration.declareBlock( blocks, "ironOre", 12, { red=85, green=85, blue=85, alpha=255 }, 12 )
+  blockDeclaration.declareBlock( blocks, "goldOre", 13, { red=85, green=85, blue=85, alpha=255 }, 13 )
+  blockDeclaration.declareBlock( blocks, "diamondOre", 14, { red=85, green=85, blue=85, alpha=255 }, 19 )
 
   return blocks
 

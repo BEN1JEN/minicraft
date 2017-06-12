@@ -27,7 +27,7 @@ function love.load()
 
   --vars
   state = "title"
-  playerX = -950
+  playerX = 0
   playerY = 0
   playerVX = 0
   playerVY = 0
@@ -45,7 +45,7 @@ function love.load()
 
   --genarate world
   world = {}
-  world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, 0, 0)
+  world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, -5, 5)
 
   --set player location
   playerX, playerY = player.placePlayer(world)

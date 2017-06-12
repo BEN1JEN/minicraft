@@ -1,20 +1,28 @@
 worldGen = {}
 
-local yDist1 = 0
+local yDist1 = 50
 local yDist2 = 0
 local yInc1 = 0
 local yInc2 = 0
-local lastXMin, lastXMax = -1000, -900
-local buffer = 5
+local offSet = 50
+local lastXMin = 0
+local lastXMax = lastXMin + offSet
+local buffer = -1
 
 function worldGen.updateWorld(world, biome, blocks, playerX, playerY)
   while world[math.floor((playerX + 52 + buffer) + 0.5 )] == nil or world[math.floor((playerX + 52 + buffer) + 0.5 )][5] == nil do
-    print (playerX+52+buffer)
+    -- print (playerX+52+buffer)
     world = worldGen.genarate(world, biome, blocks, lastXMin, lastXMax)
-    print(lastXMin, lastXMax) --debug code
-    lastXMax = lastXMax + 100
-    lastXMin = lastXMin + 100
+    -- print(lastXMin, lastXMax) --debug code
+    lastXMax = lastXMax + offSet
+    lastXMin = lastXMin + offSet
   end
+
+  if lastBiome == biome then
+    yDist1 = math.random(biome.biome1Min, biome.biome1Max)
+    yDist2 = math.random(biome.biome2Min, biome.biome2Max)
+  end
+  local lastBiome = biome
   return world
 end
 
@@ -99,11 +107,11 @@ function worldGen.genarate(world, biome, blocks, xMin, xMax)
     end
   end
 
+  --print("next:" .. yDist1, yDist2, yInc1, yInc2, xMin, xMax.. "\n") --debug code
   for x = xMin, xMax do
 
     if x == xMin then
-      yDist1 = math.random(biome.biome1Min, biome.biome1Max)
-      yDist2 = math.random(biome.biome2Min, biome.biome2Max)
+
     end
 
     local tmpY = 0
@@ -153,6 +161,10 @@ function worldGen.genarate(world, biome, blocks, xMin, xMax)
       yInc2 = -maxYInc2
     end
 
+    for x = xMin, xMax do
+          world[x][0] = { name = "bedrock", ID = 3 }
+    end
+
     yDist2 = yDist2 + yInc2
 
 
@@ -179,7 +191,35 @@ function worldGen.genarate(world, biome, blocks, xMin, xMax)
 
   ]]
 
+  -- generate ores
+  for x = xMin, xMax do
+    for y = 2, 128 do
+      if math.random(1, 4) == 1 and world[x][y]["ID"] == 2 then
+
+        if math.random(1, 2) == 1 then
+          world[x][y] = { name = "coalOre", ID = 10 }
+        end
+        if math.random(1, 6) == 1 then
+          world[x][y] = { name = "copperOre", ID = 11 }
+        end
+        if math.random(1, 8) == 1 and y < 30 then
+          world[x][y] = { name = "ironOre", ID = 12 }
+        end
+        if math.random(1, 20) == 1 and y < 15 then
+          world[x][y] = { name = "goldOre", ID = 13 }
+        end
+        if math.random(1, 50) == 1 and y < 10 then
+          world[x][y] = { name = "diamondOre", ID = 14 }
+        end
+      end
+    end
+  end
+
+
+
+
   --print("id:" .. world[x][y]["id"] .. ", blockName:" .. world[x][y]["name"]) --debug code
+  --print("prev:" .. yDist1, yDist2, yInc1, yInc2, xMin, xMax) --debug code
   return world
 
 end
