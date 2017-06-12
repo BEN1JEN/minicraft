@@ -21,13 +21,16 @@ function blockDeclaration.makeBlocks()
   blockDeclaration.declareBlock( blocks, "dirt", 4, { red=91, green=58, blue=12, alpha=255 }, 4 )
   blockDeclaration.declareBlock( blocks, "grass", 5, { red=0, green=255, blue=15, alpha=255 }, 5 )
   blockDeclaration.declareBlock( blocks, "water", 6, { red=5, green=15, blue=255, alpha=255 }, nil )
+  blockDeclaration.declareBlock( blocks, "log", 7, { red=5, green=15, blue=255, alpha=255 }, 7 )
+  blockDeclaration.declareBlock( blocks, "leaves", 8, { red=5, green=15, blue=255, alpha=255 }, 9 )
 
   return blocks
 
 end
 
-function blockDeclaration.declareBlock ( blocks, name, id, colour, drop )
+function blockDeclaration.declareBlock ( blocks, name, id, colour, drop ) -- colour is legacy only
   blocks[id] = { name = name, colour = colour, drop = drop }
+  blocks[id]["image"] = love.graphics.newImage( "assets/blocks/" .. blocks[id]["name"] .. ".png" )
 
   return blocks
 end
