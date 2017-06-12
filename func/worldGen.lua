@@ -4,6 +4,19 @@ local yDist1 = 0
 local yDist2 = 0
 local yInc1 = 0
 local yInc2 = 0
+local lastXMin, lastXMax = -1000, -900
+local buffer = 5
+
+function worldGen.updateWorld(world, biome, blocks, playerX, playerY)
+  while world[math.floor((playerX + 52 + buffer) + 0.5 )] == nil or world[math.floor((playerX + 52 + buffer) + 0.5 )][5] == nil do
+    print (playerX+52+buffer)
+    world = worldGen.genarate(world, biome, blocks, lastXMin, lastXMax)
+    print(lastXMin, lastXMax) --debug code
+    lastXMax = lastXMax + 100
+    lastXMin = lastXMin + 100
+  end
+  return world
+end
 
 function worldGen.cave(x, y, dir, size, block, blocks, world)
 

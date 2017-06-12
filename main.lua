@@ -25,10 +25,9 @@ function love.load()
   logo = love.graphics.newImage("assets/minicraftLogo.png")
   Background = love.graphics.newImage("assets/Background.png")
 
-
   --vars
   state = "title"
-  playerX = 0
+  playerX = -950
   playerY = 0
   playerVX = 0
   playerVY = 0
@@ -46,9 +45,7 @@ function love.load()
 
   --genarate world
   world = {}
-  world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, -500, 0)
-  world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, 0, 500)
-  world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, 510, 600)
+  world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, 0, 0)
 
   --set player location
   player.placePlayer(world)
@@ -90,6 +87,8 @@ function love.update(dt)
     if not(invOpen) then
       world, inventory = worldInteraction.update(hotBarSelect, world, inventory, blocks, items, playerX, playerY)
     end
+
+    world = worldGen.updateWorld(world, biomes.getBiome("plains"), blocks, playerX, playerY)
 
   end
 
