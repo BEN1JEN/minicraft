@@ -129,6 +129,28 @@ function worldGen.genarate(world, biome, blocks, xMin, xMax)
     end
 
     world[x][tmpY + 1] = { name = "grass", ID = 5 }
+    if math.random(1, biome.treeFrequincy) == 1 and x > xMin + 2 and x < xMax - 2 then
+      local a
+      for i = 1, math.random(4, 7) do
+        world[x][tmpY + 1 + i] = { name = "log", ID = 7 }
+        a = i + 2
+      end
+      world[x][tmpY + a] = { name = "leaves", ID = 8 }
+      world[x][tmpY + a + 1] = { name = "leaves", ID = 8 }
+      world[x][tmpY + a + 2] = { name = "leaves", ID = 8 }
+      world[x - 1][tmpY + a - 1] = { name = "leaves", ID = 8 }
+      world[x - 2][tmpY + a - 1] = { name = "leaves", ID = 8 }
+      world[x + 1][tmpY + a - 1] = { name = "leaves", ID = 8 }
+      world[x + 2][tmpY + a - 1] = { name = "leaves", ID = 8 }
+      world[x - 1][tmpY + a] = { name = "leaves", ID = 8 }
+      world[x - 2][tmpY + a] = { name = "leaves", ID = 8 }
+      world[x + 1][tmpY + a] = { name = "leaves", ID = 8 }
+      world[x + 2][tmpY + a] = { name = "leaves", ID = 8 }
+      world[x - 1][tmpY + a + 1] = { name = "leaves", ID = 8 }
+      world[x - 1][tmpY + a + 2] = { name = "leaves", ID = 8 }
+      world[x + 1][tmpY + a + 1] = { name = "leaves", ID = 8 }
+      world[x + 1][tmpY + a + 2] = { name = "leaves", ID = 8 }
+    end
 
     --Stone layer
     if ( not ( yDist1 > biome.biome1Max ) ) and ( math.random(0, 1) == 0 or yDist1 < biome.biome1Min ) then

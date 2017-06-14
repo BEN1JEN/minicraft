@@ -11,7 +11,8 @@ function biomes.getBiome(biome)
       biome1Min = 40,
       biome1Max = 45,
       biome2Min = 3,
-      biome2Max = 4
+      biome2Max = 4,
+      treeFrequincy = 20
     }
   elseif biome == "hills" then
     ret = {
@@ -20,7 +21,8 @@ function biomes.getBiome(biome)
       biome1Min = 40,
       biome1Max = 53,
       biome2Min = 3,
-      biome2Max = 5
+      biome2Max = 5,
+      treeFrequincy = 20
     }
   elseif biome == "old" then
     ret = {
@@ -31,7 +33,8 @@ function biomes.getBiome(biome)
       biome1Min = 40,
       biome1Max = 53,
       biome2Min = 4,
-      biome2Max = 4
+      biome2Max = 4,
+      treeFrequincy = 20
     }
   elseif biome == "extreme" then
     ret = {
@@ -40,7 +43,8 @@ function biomes.getBiome(biome)
       biome1Min = 40,
       biome1Max = 200,
       biome2Min = 4,
-      biome2Max = 7
+      biome2Max = 7,
+      treeFrequincy = 20
     }
   end
 
