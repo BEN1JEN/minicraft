@@ -15,7 +15,7 @@ function worldInteraction.update(hotBarSelect, world, inventory, blocks, items, 
       math.floor( (playerY + (720 - mouseY - 360)/10) + 0.5 )
 
       if playerX > 0 then
-        clickX = clickX - 1
+        clickX = clickX + 0
       end
 
       local clickedBlock = blocks[world[clickX][clickY]["ID"]]["drop"]

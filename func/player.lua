@@ -25,6 +25,9 @@ function player.movePlayer(fallDist, health, PlayerX, playerY, playerVX, playerV
   if playerVY < 0.00001 and love.keyboard.isDown("w") and world[math.floor(playerX)][math.floor(playerY) - 1]["ID"] ~= 0 then
     playerVY = playerVY + 15 * dt
   end
+  if playerVY < 0.00001 and love.keyboard.isDown("w") and world[math.floor(playerX)][math.floor(playerY) - 1]["ID"] == 6 then
+    playerVY = playerVY + 15 * dt
+  end
 
   if world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 0 and playerVY < 1 then
     playerVY = playerVY - dt
@@ -44,8 +47,11 @@ function player.movePlayer(fallDist, health, PlayerX, playerY, playerVX, playerV
 
   if world[math.floor(playerX + playerVX * dt * 200)][math.floor(playerY)]["ID"] == 0 or  world[math.floor(playerX + playerVX * dt * 200)][math.floor(playerY)]["ID"] == 6 then
     playerX = playerX + playerVX * dt * 200
+  elseif world[math.floor(playerX + playerVX * dt * 200)][math.floor(playerY)]["ID"] == 6 or world[math.floor(playerX + playerVX * dt * 200)][math.floor(playerY)+1]["ID"] == 0 then
+    playerX = playerX + playerVX * dt * 200
+    playerY = playerY + 1
   end
-  if world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 0 or world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 6 then
+  if world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 8 or world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 7 or world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 0 or world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 6 then
 
     playerY = playerY + playerVY * dt * 200
     if playerVY < 0 then

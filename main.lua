@@ -57,9 +57,20 @@ print("done loading")
 
 end
 
+function exit()
+
+  os.execute("cls")
+  error()
+
+end
+
 function love.update(dt)
 
   -- print("updateing") --debug code
+
+  if love.keyboard.isDown("q") then exit() end
+
+
 
   if state == "title" then
     if love.keyboard.isDown("return") then

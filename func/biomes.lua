@@ -6,13 +6,13 @@ function biomes.getBiome(biome)
     ret = {
       caveRarity = 1000,
       lakeRarity = 10000,
-      yInt = 0.05,
+      yInt = 0.01,
       xInt = 2,
-      biome1Min = 40,
-      biome1Max = 45,
+      biome1Min = 120,
+      biome1Max = 125,
       biome2Min = 3,
       biome2Max = 4,
-      treeFrequincy = 20
+      treeFrequincy = 40
     }
   elseif biome == "hills" then
     ret = {

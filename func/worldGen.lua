@@ -1,6 +1,6 @@
 worldGen = {}
 
-local yDist1 = 50
+local yDist1 = 122
 local yDist2 = 0
 local yInc1 = 0
 local yInc2 = 0
@@ -237,8 +237,14 @@ function worldGen.genarate(world, biome, blocks, xMin, xMax)
     end
   end
 
+  for x = xMin, xMax do
+    for y = 0, 64 do
 
+        if world[x][y]["ID"] == 0 then world[x][y] = { name = "water", ID = 6 } end
+        --print("set block X:" .. x .. ", Y" .. y .. " to:" .. "air")
 
+    end
+  end
 
   --print("id:" .. world[x][y]["id"] .. ", blockName:" .. world[x][y]["name"]) --debug code
   --print("prev:" .. yDist1, yDist2, yInc1, yInc2, xMin, xMax) --debug code
