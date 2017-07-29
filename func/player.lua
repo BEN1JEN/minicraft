@@ -22,14 +22,18 @@ function player.movePlayer(fallDist, health, PlayerX, playerY, playerVX, playerV
     playerVX = playerVX - 5 * dt
   end
 
-  if playerVY < 0.00001 and love.keyboard.isDown("w") and world[math.floor(playerX)][math.floor(playerY) - 1]["ID"] ~= 0 then
+  if playerVY < 0.00001 and love.keyboard.isDown("w") and world[math.floor(playerX)][math.floor(playerY) - 1]["ID"] ~= 0 and
+   world[math.floor(playerX)][math.floor(playerY) - 1]["ID"] ~= 7 and
+   world[math.floor(playerX)][math.floor(playerY) - 1]["ID"] ~= 8 then
     playerVY = playerVY + 15 * dt
   end
   if playerVY < 0.00001 and love.keyboard.isDown("w") and world[math.floor(playerX)][math.floor(playerY) - 1]["ID"] == 6 then
     playerVY = playerVY + 15 * dt
   end
 
-  if world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 0 and playerVY < 1 then
+  if ( world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 0 or
+  world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 7 or
+  world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 8 ) and playerVY < 1 then
     playerVY = playerVY - dt
   elseif world[math.floor(playerX)][math.floor(playerY + playerVX * dt * 200)]["ID"] == 6 and playerVY < 1 then
     playerVY = playerVY - dt/4
@@ -45,13 +49,26 @@ function player.movePlayer(fallDist, health, PlayerX, playerY, playerVX, playerV
 
   -- print(math.floor(playerX), playerVY, world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)])
 
-  if world[math.floor(playerX + playerVX * dt * 200)][math.floor(playerY)]["ID"] == 0 or  world[math.floor(playerX + playerVX * dt * 200)][math.floor(playerY)]["ID"] == 6 then
+  if world[math.floor(playerX + playerVX * dt * 200)][math.floor(playerY)]["ID"] == 0 or
+ world[math.floor(playerX + playerVX * dt * 200)][math.floor(playerY)]["ID"] == 6 or
+ world[math.floor(playerX + playerVX * dt * 200)][math.floor(playerY)]["ID"] == 7 or
+ world[math.floor(playerX + playerVX * dt * 200)][math.floor(playerY)]["ID"] == 8 then
+
     playerX = playerX + playerVX * dt * 200
-  elseif world[math.floor(playerX + playerVX * dt * 200)][math.floor(playerY)]["ID"] == 6 or world[math.floor(playerX + playerVX * dt * 200)][math.floor(playerY)+1]["ID"] == 0 then
+
+  elseif world[math.floor(playerX + playerVX * dt * 200)][math.floor(playerY)+1]["ID"] == 0 or
+    world[math.floor(playerX + playerVX * dt * 200)][math.floor(playerY)+1]["ID"] == 7 or
+    world[math.floor(playerX + playerVX * dt * 200)][math.floor(playerY)+1]["ID"] == 8 then
+
     playerX = playerX + playerVX * dt * 200
     playerY = playerY + 1
+
   end
-  if world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 8 or world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 7 or world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 0 or world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 6 then
+
+  if world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 0 or
+  world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 7 or
+  world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 8 or
+  world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 6 then
 
     playerY = playerY + playerVY * dt * 200
     if playerVY < 0 then
