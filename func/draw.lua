@@ -12,7 +12,7 @@ local block = ""
 			if world[math.floor(playerX) + xShift] ~= nil and world[math.floor(playerX) + xShift][math.floor(playerY) + yShift] ~= nil then
 				block = world[math.floor(playerX) + xShift][math.floor(playerY) + yShift]["ID"]
 				-- print(block) -- debug code
-				blockFunc.drawBlock(block, xShift, yShift, blocks)
+				blockFunc.drawBlock(block, xShift - (playerX - math.floor(playerX)), yShift - (playerY - math.floor(playerY)), blocks)
 			end
 
 		end
@@ -52,17 +52,10 @@ function draw.drawHUD(health, inventory, invOpen, itemGrabed, items)
 
 end
 
-function draw.drawPlayer(fake)
+function draw.drawPlayer()
 
-	if not(fake) then
-		love.graphics.setColor(255, 0, 0, 255)
-		love.graphics.polygon("fill", 1024/2 + 5, 720/2 + 5, 1024/2 + 5, 720/2 - 5, 1024/2 - 5, 720/2 - 5, 1024/2 - 5, 720/2 + 5)
-	end
-
-	if fake then
-		love.graphics.setColor(255, 0, 0, 255)
-		love.graphics.polygon("fill", 1024/2 + 105, 720/2 + 105, 1024/2 + 105, 720/2 + 95, 1024/2 + 95, 720/2 + 95, 1024/2 + 95, 720/2 + 105)
-	end
+	love.graphics.setColor(255, 0, 0, 255)
+	love.graphics.polygon("fill", 1024/2 + 10, 720/2 + 10, 1024/2 + 10, 720/2 - 10, 1024/2 - 10, 720/2 - 10, 1024/2 - 10, 720/2 + 10)
 
 end
 

@@ -10,12 +10,11 @@ function worldInteraction.update(hotBarSelect, world, inventory, blocks, items, 
 
 			mouseX, mouseY = love.mouse.getPosition()
 
-			clickX, clickY =
-				math.floor( (playerX + (mouseX - 512)/10) + 0.5 ),
-				math.floor( (playerY + (720 - mouseY - 360)/10) + 0.5 )
+			clickY =
+				math.floor( (playerY + (720 - mouseY - 360)/20) + 0.5 )
 
 			clickX =
-				math.floor(playerX) + math.floor((mouseX - 507) / 10)
+				math.floor( playerX + math.floor((mouseX - 507) / 20) + 0.5)
 
 			if playerX > 0 then
 				clickX = clickX + 0

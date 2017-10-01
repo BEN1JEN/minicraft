@@ -128,7 +128,7 @@ function worldGen.genarate(world, biome, blocks, xMin, xMax)
 				tmpY = y
 		end
 
-		world[x][tmpY + 1] = { name = "grass", ID = 5 }
+		world[x][tmpY + 1] = { name = "grassBlock", ID = 5 }
 		if math.random(1, biome.treeFrequincy) == 1 and x > xMin + 2 and x < xMax - 2 then
 			local a
 			for i = 1, math.random(4, 7) do
