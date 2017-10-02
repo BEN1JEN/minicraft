@@ -1,6 +1,6 @@
 draw = {}
 
-function draw.drawWorldOld(world, blocks, playerX, playerY, xMax)
+function draw.drawWorldOld(xMax)
 
 local block = ""
 
@@ -10,7 +10,7 @@ local block = ""
 			-- print("x, y: " .. playerX + xShift .. ", " .. playerY + yShift) -- debug code
 
 			if world[math.floor(playerX) + xShift] ~= nil and world[math.floor(playerX) + xShift][math.floor(playerY) + yShift] ~= nil then
-				block = world[math.floor(playerX) + xShift][math.floor(playerY) + yShift]["ID"]
+				block = world[math.floor(playerX) + xShift][math.floor(playerY) + yShift]["name"]
 				-- print(block) -- debug code
 				blockFunc.drawBlock(block, xShift - (playerX - math.floor(playerX)), yShift - (playerY - math.floor(playerY)), blocks)
 			end
@@ -20,7 +20,7 @@ local block = ""
 
 end
 
-function draw.drawWorld(world, blocks)
+function draw.drawWorld(world)
 
 	sx = 0
 	for bx = math.max(-1000,math.floor(playerX)-52),math.min(1000, math.floor(playerX)+52) do

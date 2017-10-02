@@ -40,8 +40,8 @@ function love.load()
 	hotBarSelect = 1
 
 	--declare blocks and items
-	items = itemDeclaration.makeItems()
-	blocks = blockDeclaration.makeBlocks()
+	items = itemDeclaration.declareItems()
+	blocks = blockDeclaration.declareBlocks()
 
 	--genarate world
 	world = {}
@@ -54,6 +54,7 @@ function love.load()
 	inventory = inventoryFunc.init(inventory)
 
 print("done loading")
+
 
 end
 
@@ -96,7 +97,7 @@ function love.update(dt)
 		itemGrabed, invOpen, inventory = inventoryFunc.update(itemGrabed, invOpen, inventory)
 
 		if not(invOpen) then
-			world, inventory = worldInteraction.update(hotBarSelect, world, inventory, blocks, items, playerX, playerY)
+			world, inventory = worldInteraction.update(hotBarSelect)
 		end
 
 		world = worldGen.updateWorld(world, biomes.getBiome("plains"), blocks, playerX, playerY)
@@ -123,7 +124,7 @@ function love.draw()
 		love.graphics.setColor(255, 255, 255, 255)
 		-- print ("1/4") --debug code
 		if state == "pano" then draw.drawWorldOld(world, blocks, playerX, playerY, 260)
-		else draw.drawWorldOld(world, blocks, playerX, playerY, 52) end
+		else draw.drawWorldOld(52) end
 		-- print("2/4") --debug code
 
 		if state ~= "pano" then draw.drawPlayer(false) end

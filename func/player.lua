@@ -31,11 +31,10 @@ function player.movePlayer(fallDist, health, PlayerX, playerY, playerVX, playerV
 		playerVY = playerVY + 15 * dt
 	end
 
-	if ( world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 0 or
-	world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 7 or
-	world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["ID"] == 8 ) and playerVY < 1 then
+	if ( world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["name"] == "air" or
+	world[math.floor(playerX)][math.floor(playerY + playerVY * dt * 200)]["playerInteraction"] == false and playerVY < 1 ) then
 		playerVY = playerVY - dt
-	elseif world[math.floor(playerX)][math.floor(playerY + playerVX * dt * 200)]["ID"] == 6 and playerVY < 1 then
+	elseif world[math.floor(playerX)][math.floor(playerY + playerVX * dt * 200)]["name"] == "water" and playerVY < 1 then
 		playerVY = playerVY - dt/4
 	else
 

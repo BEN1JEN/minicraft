@@ -1,6 +1,6 @@
 blockDeclaration = {}
 
-function blockDeclaration.makeBlocks()
+function blockDeclaration.declareBlocks()
 
 	blocks = {}
 	for id = 0, 65535 do
@@ -13,29 +13,31 @@ function blockDeclaration.makeBlocks()
 	end
 
 	--Declare blocks
+	blockDeclaration.declareBlock(nil, "air", -1, nil, {})
+	blockDeclaration.declareBlock("stone", "stone", 15, "pickaxe", {{item="cobblestone", prob=1}})
+	blockDeclaration.declareBlock("cobblestone", "cobblestone", 10, "pickaxe", {{item="cobblestone", prob=1}})
+	blockDeclaration.declareBlock("oakBark", "oakLog", 3, "axe", {{item="oakWood", prob=1},{item="oakBark", prob=5}})
+	blockDeclaration.declareBlock("dirt", "dirt", 2, "shovel", {{item="dirt", prob=1},{item="pebble", prob=10}})
+	blockDeclaration.declareBlock("grassBlock", "grass", 15, "pickaxe", {{item="dirt", prob=1}})
+	blockDeclaration.declareBlock("leaves", "oakLeaves", 2, "shears", {{item="oakSapling", prob=2},{item="apple", prob=5}})
+	blockDeclaration.declareBlock("coalOre", "coalOre", 15, "pickaxe", {{item="coalOre", prob=1}})
+	blockDeclaration.declareBlock("ironOre", "ironOre", 15, "pickaxe", {{item="ironOre", prob=1}})
+	blockDeclaration.declareBlock("copperOre", "copperOre", 15, "pickaxe", {{item="copperOre", prob=1}})
+	blockDeclaration.declareBlock("goldOre", "goldOre", 15, "pickaxe", {{item="goldOre", prob=1}})
 
-	blockDeclaration.declareBlock( blocks, "air", 0, { red=0, green=0, blue=0, alpha=0 }, nil )
-	blockDeclaration.declareBlock( blocks, "cobble", 1, { red=51, green=51, blue=51, alpha=255 }, 1 )
-	blockDeclaration.declareBlock( blocks, "stone", 2, { red=85, green=85, blue=85, alpha=255 }, 2 )
-	blockDeclaration.declareBlock( blocks, "bedrock", 3, { red=0, green=0, blue=0, alpha=255 }, 3 )
-	blockDeclaration.declareBlock( blocks, "dirt", 4, { red=91, green=58, blue=12, alpha=255 }, 4 )
-	blockDeclaration.declareBlock( blocks, "grassBlock", 5, { red=0, green=255, blue=15, alpha=255 }, 5 )
-	blockDeclaration.declareBlock( blocks, "water", 6, { red=5, green=15, blue=255, alpha=255 }, nil )
-	blockDeclaration.declareBlock( blocks, "log", 7, { red=5, green=15, blue=255, alpha=255 }, 7 )
-	blockDeclaration.declareBlock( blocks, "leaves", 8, { red=5, green=15, blue=255, alpha=255 }, 9 )
-	blockDeclaration.declareBlock( blocks, "coalOre", 10, { red=85, green=85, blue=85, alpha=255 }, 15 )
-	blockDeclaration.declareBlock( blocks, "copperOre", 11, { red=85, green=85, blue=85, alpha=255 }, 11 )
-	blockDeclaration.declareBlock( blocks, "ironOre", 12, { red=85, green=85, blue=85, alpha=255 }, 12 )
-	blockDeclaration.declareBlock( blocks, "goldOre", 13, { red=85, green=85, blue=85, alpha=255 }, 13 )
-	blockDeclaration.declareBlock( blocks, "diamondOre", 14, { red=85, green=85, blue=85, alpha=255 }, 19 )
 
 	return blocks
 
 end
 
-function blockDeclaration.declareBlock ( blocks, name, id, colour, drop ) -- colour is legacy only
-	blocks[id] = { name = name, colour = colour, drop = drop }
-	blocks[id]["image"] = love.graphics.newImage( "assets/blocks/" .. blocks[id]["name"] .. ".png" )
+
+
+
+function blockDeclaration.declareBlock ( texture, name, hardness, tool, drops )
+	blocks[name] = { name=name, drops=drops, hardness=hardness, tool=tool }
+	if texture then
+		blocks[name]["texture"] = love.graphics.newImage( "assets/blocks/" .. texture .. ".png" )
+	end
 
 	return blocks
 end

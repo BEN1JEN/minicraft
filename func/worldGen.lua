@@ -101,7 +101,7 @@ function worldGen.genarate(world, biome, blocks, xMin, xMax)
 	for x = xMin, xMax do
 		for y = 0, 1000 do
 
-				world[x][y] = { name = "air", ID = 0 }
+				world[x][y] = blocks.air
 				--print("set block X:" .. x .. ", Y" .. y .. " to:" .. "air")
 
 		end
@@ -118,38 +118,38 @@ function worldGen.genarate(world, biome, blocks, xMin, xMax)
 
 		--Stone layer
 		for y = 0, yDist1 do
-				world[x][y] = { name = "stone", ID = 2 }
+				world[x][y] = blocks.stone
 				tmpY = y
 		end
 
 		--Dirt layer
 		for y = tmpY, tmpY + yDist2 do
-				world[x][y] = { name = "dirt", ID = 4 }
+				world[x][y] = blocks.dirt
 				tmpY = y
 		end
 
-		world[x][tmpY + 1] = { name = "grassBlock", ID = 5 }
+		world[x][tmpY + 1] = blocks.grass
 		if math.random(1, biome.treeFrequincy) == 1 and x > xMin + 2 and x < xMax - 2 then
 			local a
 			for i = 1, math.random(4, 7) do
-				world[x][tmpY + 1 + i] = { name = "log", ID = 7 }
+				world[x][tmpY + 1 + i] = blocks.oakLog
 				a = i + 2
 			end
-			world[x][tmpY + a] = { name = "leaves", ID = 8 }
-			world[x][tmpY + a + 1] = { name = "leaves", ID = 8 }
-			world[x][tmpY + a + 2] = { name = "leaves", ID = 8 }
-			world[x - 1][tmpY + a - 1] = { name = "leaves", ID = 8 }
-			world[x - 2][tmpY + a - 1] = { name = "leaves", ID = 8 }
-			world[x + 1][tmpY + a - 1] = { name = "leaves", ID = 8 }
-			world[x + 2][tmpY + a - 1] = { name = "leaves", ID = 8 }
-			world[x - 1][tmpY + a] = { name = "leaves", ID = 8 }
-			world[x - 2][tmpY + a] = { name = "leaves", ID = 8 }
-			world[x + 1][tmpY + a] = { name = "leaves", ID = 8 }
-			world[x + 2][tmpY + a] = { name = "leaves", ID = 8 }
-			world[x - 1][tmpY + a + 1] = { name = "leaves", ID = 8 }
-			world[x - 1][tmpY + a + 2] = { name = "leaves", ID = 8 }
-			world[x + 1][tmpY + a + 1] = { name = "leaves", ID = 8 }
-			world[x + 1][tmpY + a + 2] = { name = "leaves", ID = 8 }
+			world[x][tmpY + a] = blocks.oakLeaves
+			world[x][tmpY + a + 1] = blocks.oakLeaves
+			world[x][tmpY + a + 2] = blocks.oakLeaves
+			world[x - 1][tmpY + a - 1] = blocks.oakLeaves
+			world[x - 2][tmpY + a - 1] = blocks.oakLeaves
+			world[x + 1][tmpY + a - 1] = blocks.oakLeaves
+			world[x + 2][tmpY + a - 1] = blocks.oakLeaves
+			world[x - 1][tmpY + a] = blocks.oakLeaves
+			world[x - 2][tmpY + a] = blocks.oakLeaves
+			world[x + 1][tmpY + a] = blocks.oakLeaves
+			world[x + 2][tmpY + a] = blocks.oakLeaves
+			world[x - 1][tmpY + a + 1] = blocks.oakLeaves
+			world[x - 1][tmpY + a + 2] = blocks.oakLeaves
+			world[x + 1][tmpY + a + 1] = blocks.oakLeaves
+			world[x + 1][tmpY + a + 2] = blocks.oakLeaves
 		end
 
 		--Stone layer
@@ -184,7 +184,7 @@ function worldGen.genarate(world, biome, blocks, xMin, xMax)
 		end
 
 		for x = xMin, xMax do
-					world[x][0] = { name = "bedrock", ID = 3 }
+					world[x][0] = blocks.bedrock
 		end
 
 		yDist2 = yDist2 + yInc2
@@ -214,6 +214,7 @@ function worldGen.genarate(world, biome, blocks, xMin, xMax)
 	]]
 
 	-- generate ores
+	--[[ --NOPE
 	for x = xMin, xMax do
 		for y = 2, 128 do
 			if math.random(1, 4) == 1 and world[x][y]["ID"] == 2 then
@@ -237,14 +238,19 @@ function worldGen.genarate(world, biome, blocks, xMin, xMax)
 		end
 	end
 
+	]]
+
+--[[
 	for x = xMin, xMax do
 		for y = 0, 64 do
 
-				if world[x][y]["ID"] == 0 then world[x][y] = { name = "water", ID = 6 } end
+				print(x,y)
+				if world[x][y]["name"] == "air" then world[x][y] = blocks.water end
 				--print("set block X:" .. x .. ", Y" .. y .. " to:" .. "air")
 
 		end
 	end
+	]]
 
 	--print("id:" .. world[x][y]["id"] .. ", blockName:" .. world[x][y]["name"]) --debug code
 	--print("prev:" .. yDist1, yDist2, yInc1, yInc2, xMin, xMax) --debug code

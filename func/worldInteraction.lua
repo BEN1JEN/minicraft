@@ -1,6 +1,15 @@
 worldInteraction = {}
+function worldInteraction.convertMouseToBlock(mouseX, mouseY )
 
-function worldInteraction.update(hotBarSelect, world, inventory, blocks, items, playerX, playerY)
+	local clickY =
+		math.floor( (playerY + (720 - mouseY - 360)/20) + 0.5 )
+	local clickX =
+		math.floor( playerX + math.floor((mouseX - 507) / 20) + 0.5)
+
+		return clickX, clickY
+
+end
+function worldInteraction.update(hotBarSelect)
 
 	local place = false
 
@@ -8,13 +17,9 @@ function worldInteraction.update(hotBarSelect, world, inventory, blocks, items, 
 
 		if not(mDownLast) then
 
-			mouseX, mouseY = love.mouse.getPosition()
+			local mouseX, mouseY = love.mouse.getPosition()
 
-			clickY =
-				math.floor( (playerY + (720 - mouseY - 360)/20) + 0.5 )
-
-			clickX =
-				math.floor( playerX + math.floor((mouseX - 507) / 20) + 0.5)
+			local clickX, clickY = worldInteraction.convertMouseToBlock(mouseX, mouseY)
 
 			if playerX > 0 then
 				clickX = clickX + 0
