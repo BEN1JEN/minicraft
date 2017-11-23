@@ -8,8 +8,8 @@ function biomes.getBiome(biome)
       lakeRarity = 10000,
       yInt = 0.01,
       xInt = 2,
-      biome1Min = 120,
-      biome1Max = 125,
+      biome1Min = 320,
+      biome1Max = 325,
       biome2Min = 3,
       biome2Max = 4,
       treeFrequincy = 40

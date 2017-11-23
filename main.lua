@@ -14,6 +14,7 @@ function love.load()
   local inventoryFunc = require "func.inventory"
   local worldInteraction = require "func.worldInteraction"
   local worldFunc = require "func.worldFunc"
+  local worldSave = require "func.worldSave"
 
   print(inventoryFunc)
 
@@ -46,6 +47,7 @@ function love.load()
   --genarate world
   world = {}
   world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, -5, 5)
+  worldSave.save(world, "saves.save")
 
   --set player location
   playerX, playerY = player.placePlayer(world)
@@ -100,6 +102,7 @@ function love.update(dt)
     end
 
     world = worldGen.updateWorld(world, biomes.getBiome("plains"), blocks, playerX, playerY)
+    worldSave.save(world, "saves.save")
 
   end
 

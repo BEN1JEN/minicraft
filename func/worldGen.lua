@@ -1,6 +1,6 @@
 worldGen = {}
 
-local yDist1 = 122
+local yDist1 = 320
 local yDist2 = 0
 local yInc1 = 0
 local yInc2 = 0
@@ -86,7 +86,7 @@ function worldGen.circle(x, y, cirSize, block, blocks, world)
 
 end
 
-function worldGen.worldInit()
+function worldGen.worldInit(biome)
 
 
 
@@ -99,7 +99,7 @@ function worldGen.genarate(world, biome, blocks, xMin, xMax)
   end
 
   for x = xMin, xMax do
-    for y = 0, 1000 do
+    for y = 0, 2048 do
 
         world[x][y] = { name = "air", ID = 0 }
         --print("set block X:" .. x .. ", Y" .. y .. " to:" .. "air")
