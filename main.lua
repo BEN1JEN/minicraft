@@ -45,7 +45,8 @@ function love.load()
 
 	--genarate world
 	world = {}
-	world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, -5, 5)
+	--world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, -5, 5)
+	world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, -1000, 1000)
 
 	--set player location
 	playerX, playerY = player.placePlayer(world)
@@ -100,7 +101,7 @@ function love.update(dt)
 			world, inventory = worldInteraction.update(hotBarSelect)
 		end
 
-		world = worldGen.updateWorld(world, biomes.getBiome("plains"), blocks, playerX, playerY)
+		--world = worldGen.updateWorld(world, biomes.getBiome("plains"), blocks, playerX, playerY)
 
 	end
 

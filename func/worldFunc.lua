@@ -3,8 +3,14 @@ worldFunc = {}
 local vx = 0
 
 function worldFunc.getBlock(x, y)
+		local returnValue = blocks.air
 		--get block
-		return world[x][y]
+		if world[x] then
+			if world[x][y] then
+				returnValue = world[x][y]
+			end
+		end
+		return returnValue
 end
 
 
