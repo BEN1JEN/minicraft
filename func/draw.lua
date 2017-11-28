@@ -9,7 +9,7 @@ function draw.drawWorld(xMax)
 			--print("x, y: " .. playerX + xShift .. ", " .. playerY + yShift) -- debug code
 
 			block = worldFunc.getBlock(playerX + xShift, playerY + yShift)["name"]
-			blockFunc.drawBlock(block, xShift - (playerX - math.floor(playerX)), 0 - yShift - (playerY - math.floor(playerY)), blocks)
+			blockFunc.drawBlock(block, xShift - (playerX - math.floor(playerX)), 0 - yShift + (playerY - math.floor(playerY)))
 			--blockFunc.drawBlock(block, xShift, 0-yShift)
 
 		end

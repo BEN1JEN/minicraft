@@ -13,7 +13,7 @@ function blockDeclaration.declareBlocks()
 	end
 
 	--Declare blocks
-	blockDeclaration.declareBlock("air", "air", -1, nil, {}, false)
+	blockDeclaration.declareBlock(nil, "air", -1, nil, {}, false)
 	blockDeclaration.declareBlock("water", "water", 5, "bucket", {}, false)
 	blockDeclaration.declareBlock("stone", "stone", 15, "pickaxe", {{item="cobblestone", prob=1}}, true)
 	blockDeclaration.declareBlock("cobblestone", "cobblestone", 10, "pickaxe", {{item="cobblestone", prob=1}}, true)

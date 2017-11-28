@@ -4,7 +4,7 @@ function worldInteraction.convertMouseToBlock(mouseX, mouseY)
 	local clickY =
 		math.floor( (playerY + (720 - mouseY - 360)/20) + 0.5 )
 	local clickX =
-		math.floor( playerX + math.floor((mouseX - 507) / 20) + 0.5)
+		math.floor( playerX + math.floor((mouseX + 4 - 507) / 20) + 0.5)
 
 		return clickX, clickY
 

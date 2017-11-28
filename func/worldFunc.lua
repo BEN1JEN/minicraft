@@ -7,8 +7,8 @@ function worldFunc.getBlock(x, y)
 	local returnValue
 
 	--rounding
-	x = math.floor(x+0.5)
-	y = math.floor(y+0.5)
+	x = math.floor(x)
+	y = math.floor(y)
 
 	--get block
 

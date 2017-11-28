@@ -31,8 +31,8 @@ function love.load()
 	local worldFunc = require "func.worldFunc"
 
 	--math.randomseed
-	math.randomseed(startTime%2^32)
-	print("seed: " .. startTime%2^32)
+	math.randomseed(startTime%2^16)
+	print("seed: " .. startTime%2^16)
 
 	--images
 	logo = love.graphics.newImage("assets/minicraftLogo.png")
