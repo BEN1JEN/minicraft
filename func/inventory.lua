@@ -6,6 +6,7 @@ function inventoryFunc.draw(invOpen, inventory, itemGrabed, items)
 	local itemX, itemY = ((mouseX+300)/40-15), 6-((mouseY+240)/40-12)
 	local itemRealX, itemRealY = math.floor((mouseX+20)/40+.5)*40-20, math.floor((mouseY)/40+.5)*40
 
+	-- draw inventory
 	love.graphics.setColor(128,128,128,255)
 	love.graphics.polygon( "fill", 720, 260, 720, 460, 320, 460, 320, 260 )
 

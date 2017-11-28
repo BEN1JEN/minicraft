@@ -1,5 +1,5 @@
 worldInteraction = {}
-function worldInteraction.convertMouseToBlock(mouseX, mouseY )
+function worldInteraction.convertMouseToBlock(mouseX, mouseY)
 
 	local clickY =
 		math.floor( (playerY + (720 - mouseY - 360)/20) + 0.5 )
@@ -7,6 +7,9 @@ function worldInteraction.convertMouseToBlock(mouseX, mouseY )
 		math.floor( playerX + math.floor((mouseX - 507) / 20) + 0.5)
 
 		return clickX, clickY
+
+end
+function worldInteraction.breakBlock(x, y)
 
 end
 function worldInteraction.update(hotBarSelect)
@@ -25,12 +28,13 @@ function worldInteraction.update(hotBarSelect)
 				clickX = clickX + 0
 			end
 
-			local clickedBlock = blocks[world[clickX][clickY]["ID"]]["drop"]
+			worldFunc.setBlock(clickX, clickY, "air")
+			--local clickedBlock = blocks[world[clickX][clickY]["ID"]["drop"]
 
 			if clickedBlock ~= nil then
 				for y = 1, 5 do
 					for x = 1, 10 do
-						if inventory[x][y]["ID"] == clickedBlock and not(placed) then
+						if inventory[x][y]["ID"] == clickedBlock or inventory[x][y]["ID"] == 0 and not(placed) then
 							inventory[x][y]["ID"] = clickedBlock
 							inventory[x][y]["amount"] = inventory[x][y]["amount"] + 1
 							placed = true
@@ -38,15 +42,6 @@ function worldInteraction.update(hotBarSelect)
 					end
 				end
 
-				for y = 1, 5 do
-					for x = 1, 10 do
-						if inventory[x][y]["ID"] == 0 and not(placed) then
-							inventory[x][y]["ID"] = clickedBlock
-							inventory[x][y]["amount"] = 1
-							placed = true
-						end
-					end
-				end
 				placed = false
 
 				world[clickX][clickY]["name"] = "air"

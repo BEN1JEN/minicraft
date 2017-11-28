@@ -1,26 +1,23 @@
 draw = {}
 
-function draw.drawWorldOld(xMax)
+function draw.drawWorld(xMax)
 
-local block = ""
-
+	local block = ""
 	for xShift = xMax*-1, xMax do
 		for yShift = -18, 18 do
 
-			-- print("x, y: " .. playerX + xShift .. ", " .. playerY + yShift) -- debug code
+			--print("x, y: " .. playerX + xShift .. ", " .. playerY + yShift) -- debug code
 
-			if world[math.floor(playerX) + xShift] ~= nil and world[math.floor(playerX) + xShift][math.floor(playerY) + yShift] ~= nil then
-				block = world[math.floor(playerX) + xShift][math.floor(playerY) + yShift]["name"]
-				-- print(block) -- debug code
-				blockFunc.drawBlock(block, xShift - (playerX - math.floor(playerX)), yShift - (playerY - math.floor(playerY)), blocks)
-			end
+			block = worldFunc.getBlock(playerX + xShift, playerY + yShift)["name"]
+			blockFunc.drawBlock(block, xShift - (playerX - math.floor(playerX)), 0 - yShift - (playerY - math.floor(playerY)), blocks)
+			--blockFunc.drawBlock(block, xShift, 0-yShift)
 
 		end
 	end
 
 end
-
-function draw.drawWorld(world)
+--[[
+function draw.drawWorldOld(world)
 
 	sx = 0
 	for bx = math.max(-1000,math.floor(playerX)-52),math.min(1000, math.floor(playerX)+52) do
@@ -33,7 +30,7 @@ function draw.drawWorld(world)
 	end
 
 end
-
+]]
 function draw.drawHUD(health, inventory, invOpen, itemGrabed, items)
 
 	love.graphics.setColor(255, 255, 255, 255)

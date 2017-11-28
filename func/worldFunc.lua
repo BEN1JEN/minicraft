@@ -3,18 +3,42 @@ worldFunc = {}
 local vx = 0
 
 function worldFunc.getBlock(x, y)
-		local returnValue = blocks.air
-		--get block
-		if world[x] then
-			if world[x][y] then
-				returnValue = world[x][y]
-			end
+
+	local returnValue
+
+	--rounding
+	x = math.floor(x+0.5)
+	y = math.floor(y+0.5)
+
+	--get block
+
+	if world[x] then
+		if world[x][y] then
+			returnValue = world[x][y]
 		end
-		return returnValue
+	end
+	if not( returnValue ) then
+		--print("warning: block at " .. x .. ", " .. y .. " does not exist.")
+		returnValue = blocks.air
+	end
+	return returnValue
 end
 
 
-function worldFunc.setblock(x, y, id)
-		--set block
-		world[x][y][id] = id
+function worldFunc.setBlock(x, y, block)
+
+	local returnValue = false
+
+	--set block
+	if world[x] then
+		if world[x][y] then
+			world[x][y] = blocks[block]
+			returnValue = true
+		end
+	end
+
+	if not( returnValue ) then
+		--print("warning: block at " .. x .. ", " .. y .. " does not exist.")
+	end
+
 end

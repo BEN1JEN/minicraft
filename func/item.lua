@@ -1,10 +1,10 @@
 itemFunc = {}
 
-function itemFunc.drawItem(itemID, invX, invY, items, amount)
+function itemFunc.drawItem(item, invX, invY, items, amount)
 	x = ( invX * 40 ) + 300
 	y = ( invY * 40 ) + 240
 	-- print("drawing item at x,y: " .. x .. ", " .. y .. " ID: " .. itemID) -- debug code
-	red, green, blue, alpha = items[itemID]["colour"]["red"], items[itemID]["colour"]["green"], items[itemID]["colour"]["blue"], items[itemID]["colour"]["alpha"]
+	red, green, blue, alpha = items[item]["colour"]["red"], items[item]["colour"]["green"], items[item]["colour"]["blue"], items[item]["colour"]["alpha"]
 	love.graphics.setColor(red, green, blue, alpha)
 
 	love.graphics.polygon("fill", x - 15, 720 - (y - 15), x + 15, 720 - (y - 15), x + 15, 720 - (y + 15), x - 15, 720 - (y + 15))

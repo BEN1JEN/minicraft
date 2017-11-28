@@ -2,30 +2,8 @@ function love.load()
 
 	print("loading...")
 
-	--requirements
-	local worldGen = require "func.worldGen"
-	local blockFunc = require "func.blocks"
-	local itemFunc = require "func.item"
-	local draw = require "func.draw"
-	local biomes = require "func.biomes"
-	local player = require "func.player"
-	local blockDeclaration = require "func.blockDeclaration"
-	local itemDeclaration = require "func.itemDeclaration"
-	local inventoryFunc = require "func.inventory"
-	local worldInteraction = require "func.worldInteraction"
-	local worldFunc = require "func.worldFunc"
-
-	print(inventoryFunc)
-
-	--math.randomseed
-	math.randomseed(os.time())
-	print(os.time())
-
-	--images
-	logo = love.graphics.newImage("assets/minicraftLogo.png")
-	Background = love.graphics.newImage("assets/Background.png")
-
 	--vars
+	startTime = os.time()
 	state = "title"
 	playerX = 0
 	playerY = 0
@@ -39,22 +17,42 @@ function love.load()
 	itemGrabed = { ID = 0, amount = 0 }
 	hotBarSelect = 1
 
+	--requirements
+	local worldGen = require "func.worldGen"
+	local blockFunc = require "func.blocks"
+	local itemFunc = require "func.item"
+	local draw = require "func.draw"
+	local biomes = require "func.biomes"
+	local player = require "func.player"
+	local blockDeclaration = require "func.blockDeclaration"
+	local itemDeclaration = require "func.itemDeclaration"
+	local inventoryFunc = require "func.inventory"
+	local worldInteraction = require "func.worldInteraction"
+	local worldFunc = require "func.worldFunc"
+
+	--math.randomseed
+	math.randomseed(startTime%2^32)
+	print("seed: " .. startTime%2^32)
+
+	--images
+	logo = love.graphics.newImage("assets/minicraftLogo.png")
+	Background = love.graphics.newImage("assets/Background.png")
+
 	--declare blocks and items
 	items = itemDeclaration.declareItems()
 	blocks = blockDeclaration.declareBlocks()
 
 	--genarate world
 	world = {}
-	--world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, -5, 5)
-	world = worldGen.genarate(world, biomes.getBiome("plains"), blocks, -1000, 1000)
+	worldGen.genarate(biomes.getBiome("plains"), -1000, 1000)
 
 	--set player location
-	playerX, playerY = player.placePlayer(world)
+	player.placePlayer()
 
 	-- initalize inventorty
 	inventory = inventoryFunc.init(inventory)
 
-print("done loading")
+print("done loading in " .. os.time() - startTime .. "ms")
 
 
 end
@@ -91,7 +89,9 @@ function love.update(dt)
 	r = r + 1
 	if state == "game" then
 
-		fallDist, health, playerX, playerY, playerVX, playerVY = player.movePlayer(fallDist, health, playerX, playerY, playerVX, playerVY, world, dt)
+		player.movePlayer(dt)
+
+		--print("PX	PY:", playerX, playerY)
 
 		if health < 1 then error("dead") end
 
@@ -101,7 +101,7 @@ function love.update(dt)
 			world, inventory = worldInteraction.update(hotBarSelect)
 		end
 
-		--world = worldGen.updateWorld(world, biomes.getBiome("plains"), blocks, playerX, playerY)
+		--worldGen.updateWorld(biomes.getBiome("plains"), blocks, playerX, playerY)
 
 	end
 
@@ -124,11 +124,13 @@ function love.draw()
 		love.graphics.polygon("fill", 0, 0, 3072, 0, 3072, 720, 0, 720)
 		love.graphics.setColor(255, 255, 255, 255)
 		-- print ("1/4") --debug code
-		if state == "pano" then draw.drawWorldOld(world, blocks, playerX, playerY, 260)
-		else draw.drawWorldOld(52) end
+		--if state == "pano" then draw.drawWorld(260)
+		--else
+			draw.drawWorld(52)
+		--end
 		-- print("2/4") --debug code
 
-		if state ~= "pano" then draw.drawPlayer(false) end
+		if state ~= "pano" then draw.drawPlayer() end
 		-- print("3/4") --debug code
 		if state ~= "pano" then draw.drawHUD(health, inventory, invOpen, itemGrabed, items) end
 	end

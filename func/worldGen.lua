@@ -9,10 +9,10 @@ local lastXMin = 0
 local lastXMax = lastXMin + offSet
 local buffer = -1
 
-function worldGen.updateWorld(world, biome, blocks, playerX, playerY)
+function worldGen.updateWorld(biome, playerX, playerY)
 	while world[math.floor((playerX + 52 + buffer) + 0.5 )] == nil or world[math.floor((playerX + 52 + buffer) + 0.5 )][5] == nil do
 		-- print (playerX+52+buffer)
-		world = worldGen.genarate(world, biome, blocks, lastXMin, lastXMax)
+		world = worldGen.genarate(biome, lastXMin, lastXMax)
 		-- print(lastXMin, lastXMax) --debug code
 		lastXMax = lastXMax + offSet
 		lastXMin = lastXMin + offSet
@@ -23,10 +23,10 @@ function worldGen.updateWorld(world, biome, blocks, playerX, playerY)
 		yDist2 = math.random(biome.biome2Min, biome.biome2Max)
 	end
 	local lastBiome = biome
-	return world
+
 end
 
-function worldGen.cave(x, y, dir, size, block, blocks, world)
+function worldGen.cave(x, y, dir, size, block)
 
 	local cirGoal = 5
 	local cirSize = 5
@@ -70,7 +70,7 @@ function worldGen.cave(x, y, dir, size, block, blocks, world)
 
 end
 
-function worldGen.circle(x, y, cirSize, block, blocks, world)
+function worldGen.circle(x, y, cirSize, block)
 
 	for c = 1, cirSize * 2 * math.pi do
 		for r = 1, cirSize do
@@ -92,17 +92,17 @@ function worldGen.worldInit()
 
 end
 
-function worldGen.genarate(world, biome, blocks, xMin, xMax)
+function worldGen.genarate(biome, xMin, xMax)
 
 	for x = xMin, xMax do
 		world[x] = {}
 	end
 
 	for x = xMin, xMax do
-		for y = 0, 1000 do
+		for y = 0, 1024 do
 
 				world[x][y] = blocks.air
-				--print("set block X:" .. x .. ", Y" .. y .. " to:" .. "air")
+				-- print("set block X:" .. x .. ", Y" .. y .. " to:" .. "air")
 
 		end
 	end
@@ -118,17 +118,17 @@ function worldGen.genarate(world, biome, blocks, xMin, xMax)
 
 		--Stone layer
 		for y = 0, yDist1 do
-				world[x][y] = blocks.stone
+				worldFunc.setBlock(x, y, "stone")
 				tmpY = y
 		end
 
 		--Dirt layer
 		for y = tmpY, tmpY + yDist2 do
-				world[x][y] = blocks.dirt
+				worldFunc.setBlock(x, y, "dirt")
 				tmpY = y
 		end
 
-		world[x][tmpY + 1] = blocks.grass
+		worldFunc.setBlock(x, tmpY + 1, "grass")
 		if math.random(1, biome.treeFrequincy) == 1 and x > xMin + 2 and x < xMax - 2 then
 			local a
 			for i = 1, math.random(4, 7) do
