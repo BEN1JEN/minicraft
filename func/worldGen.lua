@@ -10,6 +10,7 @@ local lastXMax = lastXMin + offSet
 local buffer = -1
 
 function worldGen.updateWorld(biome, playerX, playerY)
+	if math.random(1, n)
 	while world[math.floor((playerX + 52 + buffer) + 0.5 )] == nil or world[math.floor((playerX + 52 + buffer) + 0.5 )][5] == nil do
 		-- print (playerX+52+buffer)
 		world = worldGen.genarate(biome, lastXMin, lastXMax)
@@ -76,9 +77,7 @@ function worldGen.circle(x, y, cirSize, block)
 		for r = 1, cirSize do
 			--print("X: " .. math.floor( x + math.sin(c) * r ) * r .. ", Y: " .. math.floor( y + math.cos(c) * r ) .. ", R:" .. r .. ", C: " .. c) --debug code
 			--print(world[0]) --debug code
-			if world[ math.floor( x + math.sin(c) * r ) ] ~= nil then if world[ math.floor( x + math.sin(c) * r ) ][ math.floor( y + math.sin(c) * r ) ] ~= nil then
-				world[ math.floor( x + math.sin(c) * r ) ][ math.floor( y + math.sin(c) * r ) ] = { name = block, ID = blockFunc.getID(block, blocks) }
-			end end
+			worldFunc.setBlock(math.floor( x + math.sin(c) * r ), math.floor( y + math.sin(c) * r ), block )
 		end
 	end
 
@@ -102,7 +101,7 @@ function worldGen.genarate(biome, xMin, xMax)
 		for y = 0, 1024 do
 
 				world[x][y] = blocks.air
-				-- print("set block X:" .. x .. ", Y" .. y .. " to:" .. "air")
+				--print("set block X:" .. x .. ", Y" .. y .. " to:" .. "air")
 
 		end
 	end
@@ -129,7 +128,7 @@ function worldGen.genarate(biome, xMin, xMax)
 		end
 
 		worldFunc.setBlock(x, tmpY + 1, "grass")
-		if math.random(1, biome.treeFrequincy) == 1 and x > xMin + 2 and x < xMax - 2 then
+		if math.random(1, biome.treeRarity) == 1 and x > xMin + 2 and x < xMax - 2 then
 			local a
 			for i = 1, math.random(4, 7) do
 				world[x][tmpY + 1 + i] = blocks.oakLog
@@ -194,63 +193,55 @@ function worldGen.genarate(biome, xMin, xMax)
 
 	end
 
- --[[
-
-
-	for x = -1000, 1000 do
-		for y = 1, 750 do
-
-			if math.random(1, biome.caveRarity) == 1 and world[x][y]["ID"] == 2 then
-				world = worldGen.cave(x, y, math.random(1, 360), math.random(150,2000), "air", blocks, world)
-			end
-
-			if math.random(1, biome.lakeRarity) == 1 and world[x][y]["ID"] == 2 then
-				world = worldGen.cave(x, y, math.random(1, 360), math.random(150,2000), "water", blocks, world)
-			end
-
-		end
-	end
-
-	]]
-
-	-- generate ores
-	--[[ --NOPE
-	for x = xMin, xMax do
-		for y = 2, 128 do
-			if math.random(1, 4) == 1 and world[x][y]["ID"] == 2 then
-
-				if math.random(1, 2) == 1 then
-					world[x][y] = { name = "coalOre", ID = 10 }
-				end
-				if math.random(1, 6) == 1 then
-					world[x][y] = { name = "copperOre", ID = 11 }
-				end
-				if math.random(1, 8) == 1 and y < 30 then
-					world[x][y] = { name = "ironOre", ID = 12 }
-				end
-				if math.random(1, 20) == 1 and y < 15 then
-					world[x][y] = { name = "goldOre", ID = 13 }
-				end
-				if math.random(1, 50) == 1 and y < 10 then
-					world[x][y] = { name = "diamondOre", ID = 14 }
-				end
-			end
-		end
-	end
-
-	]]
-
---[[
+	-- generate oceans
 	for x = xMin, xMax do
 		for y = 0, 64 do
 
-				print(x,y)
-				if world[x][y]["name"] == "air" then world[x][y] = blocks.water end
+				if worldFunc.getBlock(x, y) == blocks.air then worldFunc.setBlock( x, y, "water" ) end
 				--print("set block X:" .. x .. ", Y" .. y .. " to:" .. "air")
 
 		end
 	end
-	]]
+
+	-- cave and lake generation
+	for x = -1000, 1000 do
+		for y = 1, 750 do
+
+			if math.random(1, biome.caveRarity) == 1 and worldFunc.getBlock(x, y) == blocks.stone then
+				world = worldGen.cave(x, y, math.random(1, 360), math.random(150,2000), "air")
+			end
+
+			if math.random(1, biome.lakeRarity) == 1 and ( worldFunc.getBlock(x, y) == blocks.dirt or worldFunc.getBlock(x, y) == blocks.grass ) then
+				world = worldGen.cave(x, y, math.random(1, 360), math.random(150,2000), "water")
+			end
+
+		end
+	end
+
+	-- generate ores
+	for x = xMin, xMax do
+		for y = 2, 128 do
+			if math.random(1, 4) == 1 and worldFunc.getBlock(x, y) == blocks.stone then
+
+				if math.random(1, 2) == 1 then
+					worldFunc.setBlock( x, y, "coalOre" )
+				end
+				if math.random(1, 6) == 1 then
+					worldFunc.setBlock( x, y, "copperOre" )
+				end
+				if math.random(1, 8) == 1 and y < 30 then
+					worldFunc.setBlock( x, y, "ironOre" )
+				end
+				if math.random(1, 20) == 1 and y < 15 then
+					worldFunc.setBlock( x, y, "goldOre" )
+				end
+				if math.random(1, 50) == 1 and y < 10 then
+					worldFunc.setBlock( x, y, "diamondOre" )
+				end
+			end
+		end
+	end
+
 
 	--print("id:" .. world[x][y]["id"] .. ", blockName:" .. world[x][y]["name"]) --debug code
 	--print("prev:" .. yDist1, yDist2, yInc1, yInc2, xMin, xMax) --debug code

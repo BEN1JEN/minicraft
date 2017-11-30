@@ -2,35 +2,37 @@ draw = {}
 
 function draw.drawWorld(xMax)
 
+	-- Calculate brightness
+	local screenBrightnesses = {}
+	for x = xMax*-1, xMax do
+		screenBrightnesses[x] = {}
+		for y = -18, 18 do
+			if x == xMax*-1 or y == -18 then
+				brightness = 1
+			elseif worldFunc.getBlock(x-1+playerX, y-1+playerY-1)["solid"] == false then
+				brightness = screenBrightnesses[x-1][y-1]
+			elseif worldFunc.getBlock(x+playerX-1, y+playerY-1)["solid"] == true then
+				brightness = screenBrightnesses[x-1][y-1] - 0.1
+			end
+			screenBrightnesses[x][y] = brightness
+		end
+	end
+
+	-- Draw
 	local block = ""
 	for xShift = xMax*-1, xMax do
-		for yShift = -18, 18 do
+		for yShift = -18, 19 do
 
 			--print("x, y: " .. playerX + xShift .. ", " .. playerY + yShift) -- debug code
 
 			block = worldFunc.getBlock(playerX + xShift, playerY + yShift)["name"]
-			blockFunc.drawBlock(block, xShift - (playerX - math.floor(playerX)), 0 - yShift + (playerY - math.floor(playerY)))
-			--blockFunc.drawBlock(block, xShift, 0-yShift)
+			blockFunc.drawBlock(block, xShift - (playerX - math.floor(playerX)), 0 - yShift + (playerY - math.floor(playerY)), screenBrightnesses[xShift][yShift])
 
 		end
 	end
 
 end
---[[
-function draw.drawWorldOld(world)
 
-	sx = 0
-	for bx = math.max(-1000,math.floor(playerX)-52),math.min(1000, math.floor(playerX)+52) do
-		sx = sx + 1
-		sy = 0
-		for by = math.max(0,math.floor(playerY)-36),math.min(1000, math.floor(playerY)+36) do
-			sy = sy + 1
-			blockFunc.drawBlock(world[bx][by]["ID"], sx, sy, blocks)
-		end
-	end
-
-end
-]]
 function draw.drawHUD(health, inventory, invOpen, itemGrabed, items)
 
 	love.graphics.setColor(255, 255, 255, 255)

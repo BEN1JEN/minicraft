@@ -124,10 +124,10 @@ function love.draw()
 		love.graphics.polygon("fill", 0, 0, 3072, 0, 3072, 720, 0, 720)
 		love.graphics.setColor(255, 255, 255, 255)
 		-- print ("1/4") --debug code
-		--if state == "pano" then draw.drawWorld(260)
-		--else
+		if state == "pano" then draw.drawWorld(260)
+		else
 			draw.drawWorld(52)
-		--end
+		end
 		-- print("2/4") --debug code
 
 		if state ~= "pano" then draw.drawPlayer() end

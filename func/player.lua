@@ -2,7 +2,7 @@ player = {}
 
 local playerVX = 0
 local playerVY = 0
-local fallDist = 0
+local fallFromY = false
 
 function player.placePlayer()
 
@@ -16,17 +16,20 @@ function player.placePlayer()
 end
 
 function player.movePlayer(dt)
-	--print("PVX	PVY:", playerVX, playerVY)
+
+	--print("PVX	PVY:", playerVX, playerVY) -- debug code
+
+	-- get run and sneek
 	local run = false
 	if love.keyboard.isDown("lctrl") then
 		run = true
 	end
-
 	local sneek = false
 	if love.keyboard.isDown("lshift") then
 		sneek = true
 	end
 
+	--get wasd input
 	if not(love.keyboard.isDown("a")) and not(love.keyboard.isDown("d")) then
 		playerVX = 0
 	elseif ( playerVX < 0.25 or ( run and playerVX < 0.5 ) ) and love.keyboard.isDown("d") then
@@ -46,6 +49,7 @@ function player.movePlayer(dt)
 	end
 	playerVY = playerVY - dt * 4
 
+	-- update playerX
 	if not(sneek) then
 
 		if worldFunc.getBlock(playerX + playerVX, playerY)["solid"] == false then
@@ -65,12 +69,35 @@ function player.movePlayer(dt)
 
 	end
 
+	-- update playerY
 	if worldFunc.getBlock(playerX, playerY + playerVY)["solid"] == false then
 		playerY = playerY + playerVY
 	else
 		playerVY = 0
 	end
 
+	-- world wrap
+	if playerY < -1024 then
+		playerY = 2048
+	elseif playerY > 2048 then
+		playerY = -1024
+	end
+
+	-- fall damage calculation
+	if playerVY > 0 then
+		fallFromY = playerY
+	end
+	if fallFromY and worldFunc.getBlock(playerX, playerY - 1)["solid"] then
+		print(fallFromY)
+		local fallDist = fallFromY - playerY
+		if fallDist > 8 then
+			health = health - fallDist * 4
+		end
+		fallFromY = false
+
+	end
+
+	-- health regen
 	if health < 255 then
 		health = health + dt
 	end

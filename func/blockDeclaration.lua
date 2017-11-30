@@ -25,6 +25,7 @@ function blockDeclaration.declareBlocks()
 	blockDeclaration.declareBlock("ironOre", "ironOre", 15, "pickaxe", {{item="ironOre", prob=1}}, true)
 	blockDeclaration.declareBlock("copperOre", "copperOre", 15, "pickaxe", {{item="copperOre", prob=1}}, true)
 	blockDeclaration.declareBlock("goldOre", "goldOre", 15, "pickaxe", {{item="goldOre", prob=1}}, true)
+	blockDeclaration.declareBlock("diamondOre", "diamondOre", 30, "pickaxe", {{item=diamondOre, prob=1}}, true)
 
 	return blocks
 
