@@ -4,13 +4,19 @@ local yDist1 = 122
 local yDist2 = 0
 local yInc1 = 0
 local yInc2 = 0
-local offSet = 50
+local offSet = 64
 local lastXMin = 0
 local lastXMax = lastXMin + offSet
 local buffer = -1
 
-function worldGen.updateWorld(biome, playerX, playerY)
-	if math.random(1, n)
+function worldGen.updateWorld(playerX, playerY)
+
+	for i, v in pairs(biomes) do
+		if math.random(1, v.rarity) == 1 then
+			biome = v
+		end
+	end
+
 	while world[math.floor((playerX + 52 + buffer) + 0.5 )] == nil or world[math.floor((playerX + 52 + buffer) + 0.5 )][5] == nil do
 		-- print (playerX+52+buffer)
 		world = worldGen.genarate(biome, lastXMin, lastXMax)
@@ -19,10 +25,10 @@ function worldGen.updateWorld(biome, playerX, playerY)
 		lastXMin = lastXMin + offSet
 	end
 
-	if lastBiome == biome then
-		yDist1 = math.random(biome.biome1Min, biome.biome1Max)
-		yDist2 = math.random(biome.biome2Min, biome.biome2Max)
-	end
+	--if lastBiome ~= biome then
+	--	yDist1 = math.random(biome.biome1Min, biome.biome1Max)
+	--	yDist2 = math.random(biome.biome2Min, biome.biome2Max)
+	--end
 	local lastBiome = biome
 
 end
@@ -92,6 +98,8 @@ function worldGen.worldInit()
 end
 
 function worldGen.genarate(biome, xMin, xMax)
+
+		print(biome.name)
 
 	for x = xMin, xMax do
 		world[x] = {}
@@ -195,7 +203,7 @@ function worldGen.genarate(biome, xMin, xMax)
 
 	-- generate oceans
 	for x = xMin, xMax do
-		for y = 0, 64 do
+		for y = 0, 100 do
 
 				if worldFunc.getBlock(x, y) == blocks.air then worldFunc.setBlock( x, y, "water" ) end
 				--print("set block X:" .. x .. ", Y" .. y .. " to:" .. "air")
@@ -211,7 +219,7 @@ function worldGen.genarate(biome, xMin, xMax)
 				world = worldGen.cave(x, y, math.random(1, 360), math.random(150,2000), "air")
 			end
 
-			if math.random(1, biome.lakeRarity) == 1 and ( worldFunc.getBlock(x, y) == blocks.dirt or worldFunc.getBlock(x, y) == blocks.grass ) then
+			if math.random(1, biome.lakeRarity) == 1 and worldFunc.getBlock(x, y).lakeAble then
 				world = worldGen.cave(x, y, math.random(1, 360), math.random(150,2000), "water")
 			end
 

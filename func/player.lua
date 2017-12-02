@@ -88,7 +88,6 @@ function player.movePlayer(dt)
 		fallFromY = playerY
 	end
 	if fallFromY and worldFunc.getBlock(playerX, playerY - 1)["solid"] then
-		print(fallFromY)
 		local fallDist = fallFromY - playerY
 		if fallDist > 8 then
 			health = health - fallDist * 4
@@ -99,7 +98,7 @@ function player.movePlayer(dt)
 
 	-- health regen
 	if health < 255 then
-		health = health + dt
+		health = health + dt * 8
 	end
 
 end

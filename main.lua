@@ -16,13 +16,14 @@ function love.load()
 	invOpen = true
 	itemGrabed = { ID = 0, amount = 0 }
 	hotBarSelect = 1
+	biomes = {}
 
 	--requirements
 	local worldGen = require "func.worldGen"
 	local blockFunc = require "func.blocks"
 	local itemFunc = require "func.item"
 	local draw = require "func.draw"
-	local biomes = require "func.biomes"
+	local biomeDeclaration = require "func.biomes"
 	local player = require "func.player"
 	local blockDeclaration = require "func.blockDeclaration"
 	local itemDeclaration = require "func.itemDeclaration"
@@ -31,20 +32,24 @@ function love.load()
 	local worldFunc = require "func.worldFunc"
 
 	--math.randomseed
-	math.randomseed(startTime%2^16)
-	print("seed: " .. startTime%2^16)
+	seed = startTime%2^24
+	--seed = 88888888888
+	math.randomseed(seed)
+	print("seed: " .. seed)
 
 	--images
 	logo = love.graphics.newImage("assets/minicraftLogo.png")
 	Background = love.graphics.newImage("assets/Background.png")
 
-	--declare blocks and items
+	--declare biomes, blocks and items
 	items = itemDeclaration.declareItems()
 	blocks = blockDeclaration.declareBlocks()
+	biomes = biomeDeclaration.declareBiomes()
+	biome = biomes.plains
 
 	--genarate world
 	world = {}
-	worldGen.genarate(biomes.getBiome("plains"), -1000, 1000)
+	worldGen.genarate(biomes.plains, -10, 10)
 
 	--set player location
 	player.placePlayer()
@@ -78,7 +83,9 @@ function love.update(dt)
 		end
 		if love.keyboard.isDown("p") then
 			state = "pano"
-			love.window.setMode(3072, 720, {resizable=false, vsync=false, minwidth=3072, minheight=720})
+			playerY = playerY + 8
+			love.window.setMode(6144, 1200, {resizable=false, vsync=false, minwidth=3072, minheight=720})
+			worldGen.genarate(biomes.plains, -128, 1024)
 		end
 	end
 
@@ -101,7 +108,7 @@ function love.update(dt)
 			world, inventory = worldInteraction.update(hotBarSelect)
 		end
 
-		--worldGen.updateWorld(biomes.getBiome("plains"), blocks, playerX, playerY)
+		worldGen.updateWorld(playerX, playerY)
 
 	end
 
@@ -121,10 +128,11 @@ function love.draw()
 		fps = math.floor(fps/2)*2
 
 		love.graphics.setColor(66, 173, 173, 255)
-		love.graphics.polygon("fill", 0, 0, 3072, 0, 3072, 720, 0, 720)
+		love.graphics.polygon("fill", 0, 0, 6144, 0, 6144, 1440, 0, 1440)
 		love.graphics.setColor(255, 255, 255, 255)
 		-- print ("1/4") --debug code
-		if state == "pano" then draw.drawWorld(260)
+		if state == "pano" then
+			draw.drawWorld(520)
 		else
 			draw.drawWorld(52)
 		end

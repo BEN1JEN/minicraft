@@ -3,30 +3,41 @@ draw = {}
 function draw.drawWorld(xMax)
 
 	-- Calculate brightness
+	--NOPE
 	local screenBrightnesses = {}
-	for x = xMax*-1, xMax do
-		screenBrightnesses[x] = {}
-		for y = -18, 18 do
-			if x == xMax*-1 or y == -18 then
+	for y = 37, -36, -1 do
+		screenBrightnesses[y] = {}
+		for x = xMax, -xMax, -1 do
+			if y == 37 or x == xMax then
 				brightness = 1
-			elseif worldFunc.getBlock(x-1+playerX, y-1+playerY-1)["solid"] == false then
-				brightness = screenBrightnesses[x-1][y-1]
-			elseif worldFunc.getBlock(x+playerX-1, y+playerY-1)["solid"] == true then
-				brightness = screenBrightnesses[x-1][y-1] - 0.1
+			else
+				aboveBrightness = math.max(screenBrightnesses[y+1][x+1], screenBrightnesses[y+1][x])
+				if x > -xMax then
+					aboveBrightness = math.max(aboveBrightness, screenBrightnesses[y+1][x-1])
+				end
+
+				if worldFunc.getBlock(x+playerX, y+playerY)["solid"] == false then
+					brightness = aboveBrightness
+				else
+					brightness = aboveBrightness - 0.05
+				end
 			end
-			screenBrightnesses[x][y] = brightness
+			if brightness < 0 then
+				brightness = 0
+			end
+			screenBrightnesses[y][x] = brightness
 		end
 	end
 
 	-- Draw
 	local block = ""
 	for xShift = xMax*-1, xMax do
-		for yShift = -18, 19 do
+		for yShift = -36, 37 do
 
 			--print("x, y: " .. playerX + xShift .. ", " .. playerY + yShift) -- debug code
 
 			block = worldFunc.getBlock(playerX + xShift, playerY + yShift)["name"]
-			blockFunc.drawBlock(block, xShift - (playerX - math.floor(playerX)), 0 - yShift + (playerY - math.floor(playerY)), screenBrightnesses[xShift][yShift])
+			blockFunc.drawBlock(block, xShift - (playerX - math.floor(playerX)), 0 - yShift + (playerY - math.floor(playerY)), screenBrightnesses[yShift][xShift])
 
 		end
 	end
