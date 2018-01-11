@@ -17,6 +17,39 @@ function love.load()
 	itemGrabed = { ID = 0, amount = 0 }
 	hotBarSelect = 1
 	biomes = {}
+    OS = love.system.getOS()
+    mode = "pc"
+    width, hight = love.graphics.getDimensions()
+    resMode = 604
+    
+
+    --set propper mode and resolution
+    if OS == "iOS" or OS == "Android" then
+        print("mobile mode active.", 10, 10)
+        mode = "mobile"
+    end
+ 
+    if mode == "mobile" then
+        local boarder = 1024
+        love.window.setMode(width, hight)
+        if width > 512+boarder then
+            resMode = 512
+        elseif width > 384+boarder then
+            resMode = 384
+        elseif width > 256+boarder then
+            resMode = 256
+        elseif width > 192+boarder then
+            resMode = 192
+        elseif width > 128+boarder then
+            resMode = 128
+        end
+        if OS == ios or width >= 1080 then
+            love.window.setMode(width, hight, {highdpi = true})
+        end
+    else
+        love.window.setMode(1024, 720)
+        --love.window.setMode(1280, 720)
+    end
 
 	--requirements
 	local worldGen = require "func.worldGen"
@@ -38,7 +71,7 @@ function love.load()
 	print("seed: " .. seed)
 
 	--images
-	logo = love.graphics.newImage("assets/minicraftLogo.png")
+	logo = love.graphics.newImage("assets/minicraftLogo" .. resMode .. ".png")
 	Background = love.graphics.newImage("assets/Background.png")
 
 	--declare biomes, blocks and items
@@ -71,48 +104,60 @@ end
 
 function love.update(dt)
 
-	-- print("updateing") --debug code
+    if mode == "pc" then
+        -- print("updateing") --debug code
 
-	if love.keyboard.isDown("q") then exit() end
+        if love.keyboard.isDown("q") then exit() end
 
 
 
-	if state == "title" then
-		if love.keyboard.isDown("return") then
-			state = "game"
-		end
-		if love.keyboard.isDown("p") then
-			state = "pano"
-			playerY = playerY + 8
-			love.window.setMode(6144, 1200, {resizable=false, vsync=false, minwidth=3072, minheight=720})
-			worldGen.genarate(biomes.plains, -128, 1024)
-		end
-	end
+        if state == "title" then
+            if love.keyboard.isDown("return") then
+                state = "game"
+            end
+            if love.keyboard.isDown("p") then
+                state = "pano"
+                playerY = playerY + 8
+                love.window.setMode(6144, 1200, {resizable=false, vsync=false, minwidth=3072, minheight=720})
+                worldGen.genarate(biomes.plains, -128, 1024)
+            end
+        end
 
-	if r == fps/2 then
-		fps = 1/dt
-		r = 0
-	end
-	r = r + 1
-	if state == "game" then
+        if r == fps/2 then
+            fps = 1/dt
+            r = 0
+        end
+        r = r + 1
+        if state == "game" then
 
-		player.movePlayer(dt)
+            player.movePlayer(dt)
 
-		--print("PX	PY:", playerX, playerY)
+            --print("PX	PY:", playerX, playerY)
 
-		if health < 1 then error("dead") end
+            if health < 1 then error("dead") end
 
-		itemGrabed, invOpen, inventory = inventoryFunc.update(itemGrabed, invOpen, inventory)
+            itemGrabed, invOpen, inventory = inventoryFunc.update(itemGrabed, invOpen, inventory)
 
-		if not(invOpen) then
-			world, inventory = worldInteraction.update(hotBarSelect)
-		end
+            if not(invOpen) then
+                world, inventory = worldInteraction.update(hotBarSelect)
+            end
 
-		worldGen.updateWorld(playerX, playerY)
+            worldGen.updateWorld(playerX, playerY)
 
-	end
+        end
 
-	-- print ("done") --debug code
+        -- print ("done") --debug code
+    elseif mode == "mobile" then
+        
+        if state == "title" then
+            
+            if #love.touch.getTouches() > 0 then
+                state = "game"
+            end
+            
+        end
+        
+    end
 
 end
 
@@ -120,8 +165,11 @@ function love.draw()
 	-- print("drawing") --debug code
 
 	if state == "title" then
+        love.graphics.setColor(255, 255, 255, 255)
 		love.graphics.draw(Background, 0, 0, 0, 1.2, 1.5)
 		love.graphics.draw(logo, 512-(521/2), 100)
+        love.graphics.setColor(0, 0, 0, 255)
+        love.graphics.print(OS .. " running in " .. mode .. " mode.", 10, 10)
 	end
 
 	if state == "game" or state == "pano" then
