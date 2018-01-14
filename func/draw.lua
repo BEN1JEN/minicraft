@@ -54,7 +54,7 @@ function draw.drawHUD(health, inventory, invOpen, itemGrabed, items)
 		love.graphics.line(i, 0, i, 10)
 	end
 	love.graphics.setColor(200, 200, 200, 255)
-	love.graphics.print(fps, 500, 0)
+	love.graphics.print(fps, width/2-12, 5)
 	if invOpen then
 		inventoryFunc.draw(invOpen, inventory, itemGrabed, items)
 	end
@@ -65,7 +65,7 @@ end
 function draw.drawPlayer()
 
 	love.graphics.setColor(255, 0, 0, 255)
-	love.graphics.polygon("fill", 1024/2 + 10, 720/2 + 10, 1024/2 + 10, 720/2 - 10, 1024/2 - 10, 720/2 - 10, 1024/2 - 10, 720/2 + 10)
+	love.graphics.polygon("fill", width/2 + 10, hight/2 + 10, width/2 + 10, hight/2 - 10, width/2 - 10, hight/2 - 10, width/2 - 10, hight/2 + 10)
 
 end
 

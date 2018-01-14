@@ -15,26 +15,51 @@ function player.placePlayer()
 
 end
 
+function player.getInput()
+
+	local buttons = {}
+	if love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl") then
+		buttons.runButton = true
+	end
+	if love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift") then
+		buttons.sneekButton = true
+	end
+	if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
+		buttons.leftButton = true
+	end
+	if love.keyboard.isDown("d") or love.keyboard.isDown("right") then
+		buttons.rightButton = true
+	end
+	if love.keyboard.isDown("w") or love.keyboard.isDown("up") or love.keyboard.isDown("space") then
+		buttons.jumpButton = true
+	end
+	return buttons
+
+end
+
 function player.movePlayer(dt)
 
 	--print("PVX	PVY:", playerVX, playerVY) -- debug code
 
+	-- get buttons
+	local buttons = player.getInput()
+
 	-- get run and sneek
 	local run = false
-	if love.keyboard.isDown("lctrl") then
+	if buttons.runButton then
 		run = true
 	end
 	local sneek = false
-	if love.keyboard.isDown("lshift") then
+	if buttons.sneekButton then
 		sneek = true
 	end
 
 	--get wasd input
-	if not(love.keyboard.isDown("a")) and not(love.keyboard.isDown("d")) then
+	if not(buttons.leftButton) and not(buttons.rightButton) then
 		playerVX = 0
-	elseif ( playerVX < 0.25 or ( run and playerVX < 0.5 ) ) and love.keyboard.isDown("d") then
+	elseif ( playerVX < 0.25 or ( run and playerVX < 0.5 ) ) and buttons.rightButton then
 		playerVX = playerVX + 5 * dt
-	elseif ( playerVX > -0.25 or ( run and playerVX > -0.5 ) ) and love.keyboard.isDown("a") then
+	elseif ( playerVX > -0.25 or ( run and playerVX > -0.5 ) ) and buttons.leftButton then
 		playerVX = playerVX - 5 * dt
 	end
 
@@ -44,7 +69,7 @@ function player.movePlayer(dt)
 		playerVX = -0.1
 	end
 
-	if playerVY < 0.00001 and love.keyboard.isDown("w") and worldFunc.getBlock(playerX, playerY - 1)["solid"] == true then
+	if playerVY < 0.00001 and buttons.jumpButton and worldFunc.getBlock(playerX, playerY - 1)["solid"] == true then
 		playerVY = playerVY + 50 * dt
 	end
 	playerVY = playerVY - dt * 4
