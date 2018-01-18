@@ -4,6 +4,15 @@ local playerVX = 0
 local playerVY = 0
 local fallFromY = false
 
+function player.die(cause)
+	if cause == "fall" then
+		print(io.open("..\\assets\\texts\\fallDeath.txt", "r"))
+		for _, line in misc.getLines("..\\assets\\texts\\fallDeath.txt") do
+			print(line)
+		end
+	end
+end
+
 function player.placePlayer()
 
 	playerX = 0
@@ -97,8 +106,8 @@ function player.movePlayer(dt)
 	end
 
 	-- health regen
-	if health < 255 then
-		health = health + dt * 8
+	if health > 0 then
+		health = health - dt * 32
 	end
 
 end

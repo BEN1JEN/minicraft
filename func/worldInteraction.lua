@@ -9,44 +9,32 @@ function worldInteraction.convertMouseToBlock(mouseX, mouseY)
 		return clickX, clickY
 
 end
-function worldInteraction.breakBlock(x, y)
+
+function worldInteraction.breakBlock(mouseX, mouseY)
+	local clickX, clickY = worldInteraction.convertMouseToBlock(mouseX, mouseY)
+
+	worldFunc.setBlock(clickX, clickY, "air")
+
+	for _, item in ipairs(worldFunc.getBlock(clickX, clickY)["drops"]) do
+		if math.random(1, worldFunc.getBlock(clickX, clickY)["drops"][i]["prob"]) == 1 then
+			inventoryFunc.give(worldFunc.getBlock(clickX, clickY)["drops"][i])
+		end
+	end
 
 end
+
 function worldInteraction.update(hotBarSelect)
 
 	local place = false
 
 	if love.mouse.isDown(1) then
-
 		if not(mDownLast) then
-
-			local mouseX, mouseY = love.mouse.getPosition()
-
-			local clickX, clickY = worldInteraction.convertMouseToBlock(mouseX, mouseY)
 
 			if playerX > 0 then
 				clickX = clickX + 0
 			end
 
-			worldFunc.setBlock(clickX, clickY, "air")
-			--local clickedBlock = blocks[world[clickX][clickY]["ID"]["drop"]
-
-			if clickedBlock ~= nil then
-				for y = 1, 5 do
-					for x = 1, 10 do
-						if inventory[x][y]["ID"] == clickedBlock or inventory[x][y]["ID"] == 0 and not(placed) then
-							inventory[x][y]["ID"] = clickedBlock
-							inventory[x][y]["amount"] = inventory[x][y]["amount"] + 1
-							placed = true
-						end
-					end
-				end
-
-				placed = false
-
-				world[clickX][clickY]["name"] = "air"
-				world[clickX][clickY]["ID"] = 0
-			end
+			worldInteraction.breakBlock(love.mouse.getPosition())
 
 		end
 		mDownLast = true

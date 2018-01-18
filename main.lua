@@ -30,6 +30,7 @@ function love.load()
 	local inventoryFunc = require "func.inventory"
 	local worldInteraction = require "func.worldInteraction"
 	local worldFunc = require "func.worldFunc"
+	local misc = require "func.misc"
 
 	--math.randomseed
 	seed = startTime%2^24
@@ -100,7 +101,7 @@ function love.update(dt)
 
 		--print("PX	PY:", playerX, playerY)
 
-		if health < 1 then error("dead") end
+		if health < 1 then player.die("fall") end
 
 		itemGrabed, invOpen, inventory = inventoryFunc.update(itemGrabed, invOpen, inventory)
 

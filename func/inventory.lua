@@ -27,6 +27,19 @@ function inventoryFunc.draw(invOpen, inventory, itemGrabed, items)
 
 end
 
+function inventoryFunc.give(item)
+	if item ~= nil then
+		for y = 1, 5 do
+			for x = 1, 10 do
+				if inventory[x][y]["item"] == item or inventory[x][y]["item"] == nil then
+					inventory[x][y]["item"] = item
+					inventory[x][y]["amount"] = inventory[x][y]["amount"] + 1
+				end
+			end
+		end
+	end
+end
+
 function inventoryFunc.init(inventory)
 
 	for x = 1, 10 do
