@@ -1,0 +1,1 @@
+@call love "%~dp0."
