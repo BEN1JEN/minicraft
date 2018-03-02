@@ -5,11 +5,14 @@ function love.load()
 	--vars
 	startTime = os.time()
 	state = "title"
-	playerX = 0
-	playerY = 0
-	playerVX = 0
-	playerVY = 0
-	health, inventory = 255, {}
+	player = {}
+	player.x = 0
+	player.y = 0
+	player.vy = 0
+	player.vy = 0
+	player.name = "BEN1JEN"
+	player.health = 255
+	inventory = {}
 	fps = 60
 	r = 0
 	fallDist = 0
@@ -17,6 +20,11 @@ function love.load()
 	itemGrabed = { ID = 0, amount = 0 }
 	hotBarSelect = 1
 	biomes = {}
+	chat = {}
+	sendMessage = nil
+
+	-- fonts
+	chatFont = love.graphics.newFont("assets/fonts/Menlo-Regular.ttf", 12)
 
 	--requirements
 	local worldGen = require "func.worldGen"
@@ -31,6 +39,9 @@ function love.load()
 	local worldInteraction = require "func.worldInteraction"
 	local worldFunc = require "func.worldFunc"
 	local misc = require "func.misc"
+	local chatFunc = require "func.chat"
+
+	print(misc.parse("hello my name is *name", {{"*name", "bobby"}}))
 
 	--math.randomseed
 	seed = startTime%2^24
@@ -84,7 +95,7 @@ function love.update(dt)
 		end
 		if love.keyboard.isDown("p") then
 			state = "pano"
-			playerY = playerY + 8
+			player.y = player.y + 8
 			love.window.setMode(6144, 1200, {resizable=false, vsync=false, minwidth=3072, minheight=720})
 			worldGen.genarate(biomes.plains, -128, 1024)
 		end
@@ -99,9 +110,9 @@ function love.update(dt)
 
 		player.movePlayer(dt)
 
-		--print("PX	PY:", playerX, playerY)
+		--print("PX	PY:", player.x, player.y)
 
-		if health < 1 then player.die("fall") end
+		if player.health < 1 then player.die("fall") end
 
 		itemGrabed, invOpen, inventory = inventoryFunc.update(itemGrabed, invOpen, inventory)
 
@@ -109,7 +120,9 @@ function love.update(dt)
 			world, inventory = worldInteraction.update(hotBarSelect)
 		end
 
-		worldGen.updateWorld(playerX, playerY)
+		worldGen.updateWorld(player.x, player.y)
+
+		chatFunc.update()
 
 	end
 
@@ -141,9 +154,15 @@ function love.draw()
 
 		if state ~= "pano" then draw.drawPlayer() end
 		-- print("3/4") --debug code
-		if state ~= "pano" then draw.drawHUD(health, inventory, invOpen, itemGrabed, items) end
+		if state ~= "pano" then draw.drawHUD(inventory, invOpen, itemGrabed, items) end
 	end
 
 	-- print("4/4\ndone") --debug code
 
+end
+
+function love.textinput(char)
+	if sendMessage then
+		sendMessage = sendMessage .. char
+	end
 end

@@ -9,7 +9,7 @@ local lastXMin = 0
 local lastXMax = lastXMin + offSet
 local buffer = -1
 
-function worldGen.updateWorld(playerX, playerY)
+function worldGen.updateWorld()
 
 	for i, v in pairs(biomes) do
 		if math.random(1, v.rarity) == 1 then
@@ -17,8 +17,8 @@ function worldGen.updateWorld(playerX, playerY)
 		end
 	end
 
-	while world[math.floor((playerX + 52 + buffer) + 0.5 )] == nil or world[math.floor((playerX + 52 + buffer) + 0.5 )][5] == nil do
-		-- print (playerX+52+buffer)
+	while world[math.floor((player.x + 52 + buffer) + 0.5 )] == nil or world[math.floor((player.x + 52 + buffer) + 0.5 )][5] == nil do
+		-- print (player.x+52+buffer)
 		world = worldGen.genarate(biome, lastXMin, lastXMax)
 		-- print(lastXMin, lastXMax) --debug code
 		lastXMax = lastXMax + offSet

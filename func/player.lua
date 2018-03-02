@@ -1,32 +1,30 @@
-player = {}
-
-local playerVX = 0
-local playerVY = 0
 local fallFromY = false
 
 function player.die(cause)
+	local messages = {}
 	if cause == "fall" then
-		print(io.open("..\\assets\\texts\\fallDeath.txt", "r"))
-		for _, line in misc.getLines("..\\assets\\texts\\fallDeath.txt") do
-			print(line)
+		for _, line in misc.getLines(love.filesystem.getSource() .. "/assets/texts/fallDeath.txt") do
+			messages[#messages + 1] = misc.parse(line, {{"*player", player.name}})
 		end
 	end
+	chatFunc.send(messages[math.random(1, #messages)])
+	player.health = 255
 end
 
 function player.placePlayer()
 
-	playerX = 0
-	playerY = 1024
-	while worldFunc.getBlock(0, playerY)["solid"] == false do
-		playerY = playerY - 1
+	player.x = 0
+	player.y = 1024
+	while worldFunc.getBlock(0, player.y)["solid"] == false do
+		player.y = player.y - 1
 	end
-	playerY = playerY + 1
+	player.y = player.y + 1
 
 end
 
 function player.movePlayer(dt)
 
-	--print("PVX	PVY:", playerVX, playerVY) -- debug code
+	--print("PVX	PVY:", player.vx, player.vy) -- debug code
 
 	-- get run and sneek
 	local run = false
@@ -40,74 +38,74 @@ function player.movePlayer(dt)
 
 	--get wasd input
 	if not(love.keyboard.isDown("a")) and not(love.keyboard.isDown("d")) then
-		playerVX = 0
-	elseif ( playerVX < 0.25 or ( run and playerVX < 0.5 ) ) and love.keyboard.isDown("d") then
-		playerVX = playerVX + 5 * dt
-	elseif ( playerVX > -0.25 or ( run and playerVX > -0.5 ) ) and love.keyboard.isDown("a") then
-		playerVX = playerVX - 5 * dt
+		player.vx = 0
+	elseif ( player.vx < 0.25 or ( run and player.vx < 0.5 ) ) and love.keyboard.isDown("d") then
+		player.vx = player.vx + 5 * dt
+	elseif ( player.vx > -0.25 or ( run and player.vx > -0.5 ) ) and love.keyboard.isDown("a") then
+		player.vx = player.vx - 5 * dt
 	end
 
-	if sneek and playerVX > 0.1 then
-		playerVX = 0.1
-	elseif sneek and playerVX < -0.1 then
-		playerVX = -0.1
+	if sneek and player.vx > 0.1 then
+		player.vx = 0.1
+	elseif sneek and player.vx < -0.1 then
+		player.vx = -0.1
 	end
 
-	if playerVY < 0.00001 and love.keyboard.isDown("w") and worldFunc.getBlock(playerX, playerY - 1)["solid"] == true then
-		playerVY = playerVY + 50 * dt
+	if player.vy < 0.00001 and love.keyboard.isDown("w") and worldFunc.getBlock(player.x, player.y - 1)["solid"] == true then
+		player.vy = player.vy + 50 * dt
 	end
-	playerVY = playerVY - dt * 4
+	player.vy = player.vy - dt * 4
 
-	-- update playerX
+	-- update player.x
 	if not(sneek) then
 
-		if worldFunc.getBlock(playerX + playerVX, playerY)["solid"] == false then
-			playerX = playerX + playerVX
-		elseif worldFunc.getBlock(playerX + playerVX, playerY + 1)["solid"] == false then
-			playerX = playerX + playerVX
-			playerY = playerY + 1
+		if worldFunc.getBlock(player.x + player.vx, player.y)["solid"] == false then
+			player.x = player.x + player.vx
+		elseif worldFunc.getBlock(player.x + player.vx, player.y + 1)["solid"] == false then
+			player.x = player.x + player.vx
+			player.y = player.y + 1
 		else
-			playerVX = 0
+			player.vx = 0
 		end
 
 	else
 
-		if worldFunc.getBlock(playerX + playerVX, playerY)["solid"] == false and worldFunc.getBlock(playerX + playerVX, playerY - 1)["solid"] then
-			playerX = playerX + playerVX
+		if worldFunc.getBlock(player.x + player.vx, player.y)["solid"] == false and worldFunc.getBlock(player.x + player.vx, player.y - 1)["solid"] then
+			player.x = player.x + player.vx
 		end
 
 	end
 
-	-- update playerY
-	if worldFunc.getBlock(playerX, playerY + playerVY)["solid"] == false then
-		playerY = playerY + playerVY
+	-- update player.y
+	if worldFunc.getBlock(player.x, player.y + player.vy)["solid"] == false then
+		player.y = player.y + player.vy
 	else
-		playerVY = 0
+		player.vy = 0
 	end
 
 	-- world wrap
-	if playerY < -1024 then
-		playerY = 2048
-	elseif playerY > 2048 then
-		playerY = -1024
+	if player.y < -1024 then
+		player.y = 2048
+	elseif player.y > 2048 then
+		player.y = -1024
 	end
 
 	-- fall damage calculation
-	if playerVY > 0 then
-		fallFromY = playerY
+	if player.vy > 0 then
+		fallFromY = player.y
 	end
-	if fallFromY and worldFunc.getBlock(playerX, playerY - 1)["solid"] then
-		local fallDist = fallFromY - playerY
+	if fallFromY and worldFunc.getBlock(player.x, player.y - 1)["solid"] then
+		local fallDist = fallFromY - player.y
 		if fallDist > 8 then
-			health = health - fallDist * 4
+			player.health = player.health - fallDist * 4
 		end
 		fallFromY = false
 
 	end
 
 	-- health regen
-	if health > 0 then
-		health = health - dt * 32
+	if player.health > 0 then
+		player.health = player.health - dt * 32
 	end
 
 end

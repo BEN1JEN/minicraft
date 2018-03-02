@@ -2,9 +2,9 @@ worldInteraction = {}
 function worldInteraction.convertMouseToBlock(mouseX, mouseY)
 
 	local clickY =
-		math.floor( (playerY + (720 - mouseY - 360)/20) + 0.5 )
+		math.floor( (player.y + (720 - mouseY - 360)/20) + 0.5 )
 	local clickX =
-		math.floor( playerX + math.floor((mouseX + 4 - 507) / 20) + 0.5)
+		math.floor( player.x + math.floor((mouseX + 4 - 507) / 20) + 0.5)
 
 		return clickX, clickY
 
@@ -30,7 +30,7 @@ function worldInteraction.update(hotBarSelect)
 	if love.mouse.isDown(1) then
 		if not(mDownLast) then
 
-			if playerX > 0 then
+			if player.x > 0 then
 				clickX = clickX + 0
 			end
 
