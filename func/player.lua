@@ -18,20 +18,36 @@ end
 function player.getInput()
 
 	local buttons = {}
-	if love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl") then
-		buttons.runButton = true
-	end
-	if love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift") then
-		buttons.sneekButton = true
-	end
-	if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
-		buttons.leftButton = true
-	end
-	if love.keyboard.isDown("d") or love.keyboard.isDown("right") then
-		buttons.rightButton = true
-	end
-	if love.keyboard.isDown("w") or love.keyboard.isDown("up") or love.keyboard.isDown("space") then
-		buttons.jumpButton = true
+	if mode == "pc" then
+		if love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl") then
+			buttons.runButton = true
+		end
+		if love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift") then
+			buttons.sneekButton = true
+		end
+		if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
+			buttons.leftButton = true
+		end
+		if love.keyboard.isDown("d") or love.keyboard.isDown("right") then
+			buttons.rightButton = true
+		end
+		if love.keyboard.isDown("w") or love.keyboard.isDown("up") or love.keyboard.isDown("space") then
+			buttons.jumpButton = true
+		end
+	elseif mode == "mobile" then
+		for _, button in pairs(onScreenButtons) do
+
+			onScreenButtons[id]["pressed"] = false
+
+			for id, touch in pairs(love.touch.getTouches()) do
+				touchX, touchY = love.touch.getPosition(id)
+				if touchX >= button.x and touchX <= button.x + button.width and touchY >= button.y and touchY <= button.y + button.hight then
+					buttons[id] = true
+					onScreenButtons[id]["pressed"] = true
+				end
+			end
+
+		end
 	end
 	return buttons
 

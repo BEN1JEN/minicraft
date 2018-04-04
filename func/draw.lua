@@ -46,6 +46,21 @@ end
 
 function draw.drawHUD(health, inventory, invOpen, itemGrabed, items)
 
+	if mode == "mobile" then
+		for i, button in pairs(onScreenButtons) do
+
+			local opacity = 0
+			if button.pressed then
+				opacity = 127
+			else
+				opacity = 255
+			end
+			print(button.x, button.y, button.width, button.hight)
+			love.graphics.setColor(255, 255, 255, opacity)
+			love.graphics.rectangle("fill", button.x, button.y, button.width, button.hight)
+		end
+	end
+
 	love.graphics.setColor(255, 255, 255, 255)
 	love.graphics.rectangle("fill", 0, 0, 257, 12)
 	love.graphics.setColor(255, 0, 0, 255)

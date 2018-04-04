@@ -41,4 +41,5 @@ function worldFunc.setBlock(x, y, block)
 		--print("warning: block at " .. x .. ", " .. y .. " does not exist.")
 	end
 
+	return returnValue
 end

@@ -113,10 +113,11 @@ function inventoryFunc.drawHotbar(inventory, itemGrabed, items)
 		local itemRealX, itemRealY = math.floor((mouseX+20)/40+.5)*40-20, math.floor((mouseY+20)/40+.5)*40-20
 
 		love.graphics.setColor(128,128,128,255)
-		love.graphics.polygon( "fill", 720, 680, 720, 720, 320, 720, 320, 680 )
+		love.graphics.polygon( "fill", width/2+192, hight-40, width/2+192, hight, width/2-192, hight, width/2-192, hight-40 )
 
 		love.graphics.setColor(255, 255, 255, 128)
-		if itemRealX >= 340 and itemRealY >= 680 and itemRealX <= 700 and itemRealY <= 720 then
+		print(itemRealX, itemRealY)
+		if itemRealX >= width/2-192 and itemRealY >= hight-40 and itemRealX <= width/2-192 and itemRealY <= hight then
 			love.graphics.polygon( "fill", itemRealX+20, itemRealY+20, itemRealX+20, itemRealY-20, itemRealX-20, itemRealY-20, itemRealX-20, itemRealY+20 )
 		end
 

@@ -17,7 +17,7 @@ function worldGen.updateWorld(playerX, playerY)
 		end
 	end
 
-	while world[math.floor((playerX + 52 + buffer) + 0.5 )] == nil or world[math.floor((playerX + 52 + buffer) + 0.5 )][5] == nil do
+	while world[math.floor((playerX + width/20 + buffer) + 0.5 )] == nil or world[math.floor((playerX + 52 + buffer) + 0.5 )][5] == nil do
 		-- print (playerX+52+buffer)
 		world = worldGen.genarate(biome, lastXMin, lastXMax)
 		-- print(lastXMin, lastXMax) --debug code
@@ -33,7 +33,7 @@ function worldGen.updateWorld(playerX, playerY)
 
 end
 
-function worldGen.cave(x, y, dir, size, block)
+function worldGen.cave(x, y, dir, size, type)
 
 	local cirGoal = 5
 	local cirSize = 5
@@ -45,7 +45,15 @@ function worldGen.cave(x, y, dir, size, block)
 		dir = dir + dirInc
 		dirInc = dirInc + math.random(-1, 1)
 
-		world = worldGen.circle(x, y, cirSize, block, blocks, world)
+		if type == "cave" then
+			if worldFunc.getBlock(x, y) == blocks.stone then
+				worldGen.circle(x, y, cirSize, blocks.air)
+			end
+		elseif type == "lake" then
+			if worldFunc.getBlock(x, y).lakeAble then
+				worldGen.circle(x, y, cirSize, blocks.water)
+			end
+		end
 
 		 x = x + math.sin(dir)
 		 y = y + math.cos(dir)
@@ -86,14 +94,6 @@ function worldGen.circle(x, y, cirSize, block)
 			worldFunc.setBlock(math.floor( x + math.sin(c) * r ), math.floor( y + math.sin(c) * r ), block )
 		end
 	end
-
-	return world
-
-end
-
-function worldGen.worldInit()
-
-
 
 end
 
@@ -212,15 +212,15 @@ function worldGen.genarate(biome, xMin, xMax)
 	end
 
 	-- cave and lake generation
-	for x = -1000, 1000 do
+	for x = xMin, xMax do
 		for y = 1, 750 do
 
 			if math.random(1, biome.caveRarity) == 1 and worldFunc.getBlock(x, y) == blocks.stone then
-				world = worldGen.cave(x, y, math.random(1, 360), math.random(150,2000), "air")
+				world = worldGen.cave(x, y, math.random(1, 360), math.random(150,2000), "cave")
 			end
 
 			if math.random(1, biome.lakeRarity) == 1 and worldFunc.getBlock(x, y).lakeAble then
-				world = worldGen.cave(x, y, math.random(1, 360), math.random(150,2000), "water")
+				world = worldGen.cave(x, y, math.random(1, 360), math.random(150,2000), "lake")
 			end
 
 		end

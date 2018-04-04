@@ -1,4 +1,4 @@
-function love.load()
+function love.load( args )
 
 	print("loading...")
 
@@ -21,7 +21,12 @@ function love.load()
 	mode = "pc"
 	width, hight = love.graphics.getDimensions()
 	resMode = 604
-
+	onScreenButtons = {
+		jumpButton = {x = width-100, y = hight-100, width =  50, hight =  50, pressed =  false},
+		runButton = {x = width-100, y = hight-200, width = 50, hight = 50, pressed = false},
+		leftButton = {x = 50, y = hight-150, width = 50, hight = 50, pressed = false},
+		rightButton = {x = 150, y = hight-150, width = 50, hight = 50, pressed = false}
+	}
 
 	--set propper mode and resolution
 	if OS == "iOS" or OS == "Android" then
@@ -43,19 +48,24 @@ function love.load()
 		elseif width > 128+boarder then
 			resMode = 128
 		end
-		onScreenButtons = {
-			jumpButton = {x = width-100, y = hight-100, width =  50, hight =  50, pressed =  false},
-			runButton = {x = width-100, y = hight-200, width = 50, hight = 50, pressed = false},
-			leftButton = {x = 50, y = hight-150, width = 50, hight = 50, pressed = false},
-			rightButton = {x = 150, y = hight-150, width = 50, hight = 50, pressed = false}
-		}
-		if width >= 1080 then
+
+		if hight >= 720 then
 			love.window.setMode(width, hight, {highdpi = true})
+			highdpi = true
 		end
 	else
 		love.window.setMode(1024, 720, {fullscreen = true})
 		--love.window.setMode(1280, 720)
 	end
+
+	--if highdpi then
+		onScreenButtons = {
+		jumpButton = {x = width-400, y = hight-400, width =  200, hight = 200, pressed =  false},
+		runButton = {x = width-400, y = hight-800, width = 200, hight = 200, pressed = false},
+		leftButton = {x = 400, y = hight-600, width = 200, hight = 200, pressed = false},
+		rightButton = {x = 600, y = hight-600, width = 200, hight = 200, pressed = false}
+	}
+	--end
 
 	--requirements
 	local worldGen = require "func.worldGen"
@@ -110,60 +120,64 @@ end
 
 function love.update(dt)
 
-		if mode == "pc" then
-				-- print("updateing") --debug code
+	if mode == "pc" then
+		-- print("updateing") --debug code
 
-				if love.keyboard.isDown("q") then exit() end
+		if love.keyboard.isDown("q") then exit() end
 
 
 
-				if state == "title" then
-						if love.keyboard.isDown("return") then
-								state = "game"
-						end
-						if love.keyboard.isDown("p") then
-								state = "pano"
-								playerY = playerY + 8
-								love.window.setMode(6144, 1200, {resizable=false, vsync=false, minwidth=3072, minheight=720})
-								worldGen.genarate(biomes.plains, -128, 1024)
-						end
-				end
+		if state == "title" then
+			if love.keyboard.isDown("return") then
+				state = "game"
+			end
+			if love.keyboard.isDown("p") then
+				state = "pano"
+				playerY = playerY + 8
+				love.window.setMode(6144, 1200, {resizable=false, vsync=false, minwidth=3072, minheight=720})
+				worldGen.genarate(biomes.plains, -128, 1024)
+			end
+		end
 
-				if r == fps/2 then
-						fps = 1/dt
-						r = 0
-				end
-				r = r + 1
-				if state == "game" then
+		if r == fps/2 then
+			fps = 1/dt
+			r = 0
+		end
+		r = r + 1
+		if state == "game" then
 
-						player.movePlayer(dt)
+			player.movePlayer(dt)
 
-						--print("PX	PY:", playerX, playerY)
+			--print("PX	PY:", playerX, playerY)
 
-						if health < 1 then error("dead") end
+			if health < 1 then error("dead") end
 
-						itemGrabed, invOpen, inventory = inventoryFunc.update(itemGrabed, invOpen, inventory)
+			itemGrabed, invOpen, inventory = inventoryFunc.update(itemGrabed, invOpen, inventory)
 
-						if not(invOpen) then
-								world, inventory = worldInteraction.update(hotBarSelect)
-						end
+			if not(invOpen) then
+				world, inventory = worldInteraction.update(hotBarSelect)
+			end
 
-						worldGen.updateWorld(playerX, playerY)
-
-				end
-
-				-- print ("done") --debug code
-		elseif mode == "mobile" then
-
-				if state == "title" then
-
-						if #love.touch.getTouches() > 0 then
-								state = "game"
-						end
-
-				end
+			worldGen.updateWorld(playerX, playerY)
 
 		end
+
+		-- print ("done") --debug code
+	elseif mode == "mobile" then
+
+			if state == "title" then
+
+					if #love.touch.getTouches() > 0 then
+							state = "game"
+					end
+
+			elseif state == "game" then
+
+				player.movePlayer(dt)
+
+			end
+
+	end
 
 end
 
@@ -179,19 +193,6 @@ function love.draw()
 	end
 
 	if state == "game" or state == "pano" then
-
-		if mode == "mobile" then
-			for i, button in pairs(onScreenButtons) do
-				local opacity = 0
-				if button.pressed then
-					opacity = 127
-				else
-					opacity = 255
-				end
-				love.graphics.setColor(255, 255, 255, opacity)
-				love.graphics.rectangle("fill", button.x, button.y, button.width, button.hight)
-			end
-		end
 
 		fps = math.floor(fps/2)*2
 
