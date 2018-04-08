@@ -104,8 +104,8 @@ function player.movePlayer(dt)
 	end
 
 	-- health regen
-	if player.health > 0 then
-		player.health = player.health - dt * 32
+	if player.health < 255 then
+		player.health = player.health + dt * 4
 	end
 
 end
