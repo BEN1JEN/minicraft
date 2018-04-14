@@ -87,8 +87,6 @@ function love.update(dt)
 
 	if love.keyboard.isDown("q") then exit() end
 
-
-
 	if state == "title" then
 		if love.keyboard.isDown("return") then
 			state = "game"
@@ -101,11 +99,7 @@ function love.update(dt)
 		end
 	end
 
-	if r == fps/2 then
-		fps = 1/dt
-		r = 0
-	end
-	r = r + 1
+	fps = 1/dt
 	if state == "game" then
 
 		player.movePlayer(dt)
@@ -114,7 +108,7 @@ function love.update(dt)
 
 		if player.health < 1 then player.die("fall") end
 
-		itemGrabed, invOpen, inventory = inventoryFunc.update(itemGrabed, invOpen, inventory)
+		inventoryFunc.update()
 
 		if not(invOpen) then
 			world, inventory = worldInteraction.update(hotBarSelect)
@@ -148,7 +142,7 @@ function love.draw()
 		if state == "pano" then
 			draw.drawWorld(520)
 		else
-			draw.drawWorld(52)
+			draw.drawWorld(36)
 		end
 		-- print("2/4") --debug code
 

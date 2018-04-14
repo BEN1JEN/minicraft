@@ -56,9 +56,9 @@ function draw.drawHUD(inventory, invOpen, itemGrabed, items)
 	love.graphics.setColor(200, 200, 200, 255)
 	love.graphics.print(fps, 500, 0)
 	if invOpen then
-		inventoryFunc.draw(invOpen, inventory, itemGrabed, items)
+		inventoryFunc.draw(invOpen)
 	end
-	inventoryFunc.drawHotbar(inventory, itemGrabed, items)
+	inventoryFunc.drawHotbar()
 	chatFunc.draw()
 
 end

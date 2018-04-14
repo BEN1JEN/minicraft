@@ -1,10 +1,12 @@
 worldInteraction = {}
 function worldInteraction.convertMouseToBlock(mouseX, mouseY)
-
-	local clickY =
-		math.floor( (player.y + (720 - mouseY - 360)/20) + 0.5 )
-	local clickX =
-		math.floor( player.x + math.floor((mouseX + 4 - 507) / 20) + 0.5)
+	mouseY = 720-mouseY
+	local clickX = math.floor(0.5 + player.x + (mouseX/20 - 512/20 - player.x + math.floor(player.x)) + (player.x - math.floor(player.x)))
+	local clickY = math.floor(0.5 + player.y + (mouseY/20 - 360/20 - player.y + math.floor(player.y)))
+	--local clickY =
+	--	math.floor( (player.y + (720 - mouseY - 360)/20) + 0.5 )
+	--local clickX =
+	--	math.floor( player.x + math.floor((mouseX + 4 - 507) / 20) + 0.5)
 
 		return clickX, clickY
 
@@ -23,16 +25,16 @@ function worldInteraction.breakBlock(mouseX, mouseY)
 
 end
 
+function worldInteraction.placeItem(item, block)
+	setBlock(worldInteraction.convertMouseToBlock(love.mouse.getPosition()), block)
+end
+
 function worldInteraction.update(hotBarSelect)
 
 	local place = false
 
 	if love.mouse.isDown(1) then
 		if not(mDownLast) then
-
-			if player.x > 0 then
-				clickX = clickX + 0
-			end
 
 			worldInteraction.breakBlock(love.mouse.getPosition())
 

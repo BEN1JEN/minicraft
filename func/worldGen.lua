@@ -91,9 +91,51 @@ function worldGen.circle(x, y, cirSize, block)
 
 end
 
-function worldGen.worldInit()
+function worldGen.tree(type, dirtY, x)
 
-
+	local yOffset
+	if type == "oak" then
+		if math.random(1, 2) == 1 then
+			for i = 1, math.random(4, 6) do
+				worldFunc.setBlock(x, dirtY + 1 + i, "oakLog")
+				yOffset = i + 2
+			end
+			worldFunc.setBlock(x, dirtY + yOffset, "oakLeaves")
+			worldFunc.setBlock(x, dirtY + yOffset + 1, "oakLeaves")
+			worldFunc.setBlock(x, dirtY + yOffset + 2, "oakLeaves")
+			worldFunc.setBlock(x - 1, dirtY + yOffset - 1, "oakLeaves")
+			worldFunc.setBlock(x - 2, dirtY + yOffset - 1, "oakLeaves")
+			worldFunc.setBlock(x + 1, dirtY + yOffset - 1, "oakLeaves")
+			worldFunc.setBlock(x + 2, dirtY + yOffset - 1, "oakLeaves")
+			worldFunc.setBlock(x - 1, dirtY + yOffset, "oakLeaves")
+			worldFunc.setBlock(x - 2, dirtY + yOffset, "oakLeaves")
+			worldFunc.setBlock(x + 1, dirtY + yOffset, "oakLeaves")
+			worldFunc.setBlock(x + 2, dirtY + yOffset, "oakLeaves")
+			worldFunc.setBlock(x - 1, dirtY + yOffset + 1, "oakLeaves")
+			worldFunc.setBlock(x - 1, dirtY + yOffset + 2, "oakLeaves")
+			worldFunc.setBlock(x + 1, dirtY + yOffset + 1, "oakLeaves")
+			worldFunc.setBlock(x + 1, dirtY + yOffset + 2, "oakLeaves")
+		else
+			for i = 1, math.random(5, 8) do
+				worldFunc.setBlock(x, dirtY + 1 + i, "oakLog")
+				yOffset = i + 2
+			end
+			worldFunc.setBlock(x, dirtY + yOffset, "oakLeaves")
+			worldFunc.setBlock(x, dirtY + yOffset + 1, "oakLeaves")
+			worldFunc.setBlock(x - 1, dirtY + yOffset + 1, "oakLeaves")
+			worldFunc.setBlock(x + 1, dirtY + yOffset + 1, "oakLeaves")
+			worldFunc.setBlock(x - 1, dirtY + yOffset, "oakLeaves")
+			worldFunc.setBlock(x + 1, dirtY + yOffset, "oakLeaves")
+			worldFunc.setBlock(x - 2, dirtY + yOffset, "oakLeaves")
+			worldFunc.setBlock(x + 2, dirtY + yOffset, "oakLeaves")
+			worldFunc.setBlock(x - 2, dirtY + yOffset - 1, "oakLeaves")
+			worldFunc.setBlock(x + 2, dirtY + yOffset - 1, "oakLeaves")
+			worldFunc.setBlock(x - 1, dirtY + yOffset - 1, "oakLeaves")
+			worldFunc.setBlock(x + 1, dirtY + yOffset - 1, "oakLeaves")
+			worldFunc.setBlock(x - 1, dirtY + yOffset - 2, "oakLeaves")
+			worldFunc.setBlock(x + 1, dirtY + yOffset - 2, "oakLeaves")
+		end
+	end
 
 end
 
@@ -125,38 +167,19 @@ function worldGen.genarate(biome, xMin, xMax)
 
 		--Stone layer
 		for y = 0, yDist1 do
-				worldFunc.setBlock(x, y, "stone")
+				worldFunc.setBlock(x, y, biome.layer1Block)
 				tmpY = y
 		end
 
 		--Dirt layer
 		for y = tmpY, tmpY + yDist2 do
-				worldFunc.setBlock(x, y, "dirt")
+				worldFunc.setBlock(x, y, biome.layer2Block)
 				tmpY = y
 		end
 
-		worldFunc.setBlock(x, tmpY + 1, "grass")
+		worldFunc.setBlock(x, tmpY + 1, biome.topBlock)
 		if math.random(1, biome.treeRarity) == 1 and x > xMin + 2 and x < xMax - 2 then
-			local a
-			for i = 1, math.random(4, 7) do
-				world[x][tmpY + 1 + i] = blocks.oakLog
-				a = i + 2
-			end
-			world[x][tmpY + a] = blocks.oakLeaves
-			world[x][tmpY + a + 1] = blocks.oakLeaves
-			world[x][tmpY + a + 2] = blocks.oakLeaves
-			world[x - 1][tmpY + a - 1] = blocks.oakLeaves
-			world[x - 2][tmpY + a - 1] = blocks.oakLeaves
-			world[x + 1][tmpY + a - 1] = blocks.oakLeaves
-			world[x + 2][tmpY + a - 1] = blocks.oakLeaves
-			world[x - 1][tmpY + a] = blocks.oakLeaves
-			world[x - 2][tmpY + a] = blocks.oakLeaves
-			world[x + 1][tmpY + a] = blocks.oakLeaves
-			world[x + 2][tmpY + a] = blocks.oakLeaves
-			world[x - 1][tmpY + a + 1] = blocks.oakLeaves
-			world[x - 1][tmpY + a + 2] = blocks.oakLeaves
-			world[x + 1][tmpY + a + 1] = blocks.oakLeaves
-			world[x + 1][tmpY + a + 2] = blocks.oakLeaves
+			worldGen.tree(biome.treeType, tmpY, x)
 		end
 
 		--Stone layer
@@ -212,7 +235,7 @@ function worldGen.genarate(biome, xMin, xMax)
 	end
 
 	-- cave and lake generation
-	for x = -1000, 1000 do
+	for x = xMin, xMax do
 		for y = 1, 750 do
 
 			if math.random(1, biome.caveRarity) == 1 and worldFunc.getBlock(x, y) == blocks.stone then

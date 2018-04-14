@@ -1,6 +1,6 @@
 inventoryFunc = {}
 
-function inventoryFunc.draw(invOpen, inventory, itemGrabed, items)
+function inventoryFunc.draw()
 
 	local mouseX, mouseY = love.mouse.getPosition()
 	local itemX, itemY = ((mouseX+300)/40-15), 6-((mouseY+240)/40-12)
@@ -18,12 +18,12 @@ function inventoryFunc.draw(invOpen, inventory, itemGrabed, items)
 	for x = 1, 10 do
 		for y = 1, 5 do
 			local tmpX, tmpY = (x*40)-300, 6-(y*40)-240
-			itemFunc.drawItem(inventory[x][y]["ID"], x, y, items, inventory[x][y]["amount"])
+			itemFunc.drawItem(inventory[x][y]["ID"], x, y, inventory[x][y]["amount"])
 
 		end
 	end
 
-	itemFunc.drawItem(itemGrabed["ID"], itemX, itemY, items, itemGrabed["amount"])
+	itemFunc.drawItem(itemGrabed["ID"], itemX, itemY, itemGrabed["amount"])
 
 end
 
@@ -58,7 +58,7 @@ function inventoryFunc.init(inventory)
 
 end
 
-function inventoryFunc.update(itemGrabed, invOpen, inventory)
+function inventoryFunc.update()
 	if invOpen then
 
 		local mouseX, mouseY = love.mouse.getPosition()
@@ -115,11 +115,9 @@ function inventoryFunc.update(itemGrabed, invOpen, inventory)
 
 	if love.keyboard.isDown("escape") then invOpen = false end
 
-	return itemGrabed, invOpen, inventory
-
 end
 
-function inventoryFunc.drawHotbar(inventory, itemGrabed, items)
+function inventoryFunc.drawHotbar()
 
 		local mouseX, mouseY = love.mouse.getPosition()
 		local itemX, itemY = ((mouseX+300)/40-15), 6-((mouseY+240)/40-12)
@@ -134,7 +132,7 @@ function inventoryFunc.drawHotbar(inventory, itemGrabed, items)
 		end
 
 		for x = 1, 10 do
-			itemFunc.drawItem(inventory[x][1]["ID"], x, -5.5, items, inventory[x][1]["amount"])
+			itemFunc.drawItem(inventory[x][1]["ID"], x, -5.5, inventory[x][1]["amount"])
 		end
 
 end
