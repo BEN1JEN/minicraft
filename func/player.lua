@@ -22,26 +22,67 @@ function player.placePlayer()
 
 end
 
+function player.getInput()
+
+	local buttons = {}
+	if mode == "pc" then
+		if love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl") then
+			buttons.runButton = true
+		end
+		if love.keyboard.isDown("lshift") or love.keyboard.isDown("rshift") then
+			buttons.sneekButton = true
+		end
+		if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
+			buttons.leftButton = true
+		end
+		if love.keyboard.isDown("d") or love.keyboard.isDown("right") then
+			buttons.rightButton = true
+		end
+		if love.keyboard.isDown("w") or love.keyboard.isDown("up") or love.keyboard.isDown("space") then
+			buttons.jumpButton = true
+		end
+	elseif mode == "mobile" then
+		for _, button in pairs(onScreenButtons) do
+
+			onScreenButtons[id]["pressed"] = false
+
+			for id, touch in pairs(love.touch.getTouches()) do
+				touchX, touchY = love.touch.getPosition(id)
+				if touchX >= button.x and touchX <= button.x + button.width and touchY >= button.y and touchY <= button.y + button.hight then
+					buttons[id] = true
+					onScreenButtons[id]["pressed"] = true
+				end
+			end
+
+		end
+	end
+	return buttons
+
+end
+
 function player.movePlayer(dt)
 
 	--print("PVX	PVY:", player.vx, player.vy) -- debug code
 
+	-- get buttons
+	local buttons = player.getInput()
+
 	-- get run and sneek
 	local run = false
-	if love.keyboard.isDown("lctrl") then
+	if buttons.runButton then
 		run = true
 	end
 	local sneek = false
-	if love.keyboard.isDown("lshift") then
+	if buttons.sneekButton then
 		sneek = true
 	end
 
 	--get wasd input
-	if not(love.keyboard.isDown("a")) and not(love.keyboard.isDown("d")) then
+	if not(buttons.leftButton) and not(buttons.rightButton) then
 		player.vx = 0
-	elseif ( player.vx < 0.25 or ( run and player.vx < 0.5 ) ) and love.keyboard.isDown("d") then
+	elseif ( player.vx < 0.25 or ( run and player.vx < 0.5 ) ) and buttons.rightButton then
 		player.vx = player.vx + 5 * dt
-	elseif ( player.vx > -0.25 or ( run and player.vx > -0.5 ) ) and love.keyboard.isDown("a") then
+	elseif ( player.vx > -0.25 or ( run and player.vx > -0.5 ) ) and buttons.leftButton then
 		player.vx = player.vx - 5 * dt
 	end
 
@@ -51,7 +92,7 @@ function player.movePlayer(dt)
 		player.vx = -0.1
 	end
 
-	if player.vy < 0.00001 and love.keyboard.isDown("w") and worldFunc.getBlock(player.x, player.y - 1)["solid"] == true then
+	if player.vy < 0.00001 and buttons.jumpButton and worldFunc.getBlock(player.x, player.y - 1)["solid"] == true then
 		player.vy = player.vy + 50 * dt
 	end
 	player.vy = player.vy - dt * 4

@@ -11,10 +11,11 @@ function worldFunc.getBlock(x, y)
 	y = math.floor(y)
 
 	--get block
-
-	if world[x] then
-		if world[x][y] then
-			returnValue = world[x][y]["block"]
+	if world then
+		if world[x] then
+			if world[x][y] then
+				returnValue = world[x][y]["block"]
+			end
 		end
 	end
 	if not( returnValue ) then
@@ -41,4 +42,5 @@ function worldFunc.setBlock(x, y, block)
 		--print("warning: block at " .. x .. ", " .. y .. " does not exist.")
 	end
 
+	return returnValue
 end

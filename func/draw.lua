@@ -46,6 +46,21 @@ end
 
 function draw.drawHUD(inventory, invOpen, itemGrabed, items)
 
+	if mode == "mobile" then
+		for i, button in pairs(onScreenButtons) do
+
+			local opacity = 0
+			if button.pressed then
+				opacity = 0.5
+			else
+				opacity = 1
+			end
+			print(button.x, button.y, button.width, button.hight)
+			love.graphics.setColor(1, 1, 1, opacity)
+			love.graphics.rectangle("fill", button.x, button.y, button.width, button.hight)
+		end
+	end
+
 	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.rectangle("fill", 0, 0, 257, 12)
 	love.graphics.setColor(1, 0, 0, 1)
@@ -54,7 +69,7 @@ function draw.drawHUD(inventory, invOpen, itemGrabed, items)
 		love.graphics.line(i, 0, i, 10)
 	end
 	love.graphics.setColor(0.8, 0.8, 0.8, 1)
-	love.graphics.print(fps, 500, 0)
+	love.graphics.print(fps, width/2-12, 5)
 	if invOpen then
 		inventoryFunc.draw(invOpen)
 	end
@@ -66,7 +81,7 @@ end
 function draw.drawPlayer()
 
 	love.graphics.setColor(1, 0, 0, 1)
-	love.graphics.polygon("fill", 1024/2 + 10, 720/2 + 10, 1024/2 + 10, 720/2 - 10, 1024/2 - 10, 720/2 - 10, 1024/2 - 10, 720/2 + 10)
+	love.graphics.polygon("fill", width/2 + 10, hight/2 + 10, width/2 + 10, hight/2 - 10, width/2 - 10, hight/2 - 10, width/2 - 10, hight/2 + 10)
 
 end
 
