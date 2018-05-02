@@ -11,7 +11,7 @@ end
 function chatFunc.draw()
 
 	for x, line in ipairs(chat) do
-		love.graphics.setColor(255, 255, 255)
+		love.graphics.setColor(1, 1, 1)
 		love.graphics.setFont(chatFont)
 		love.graphics.print(line, 0, x*12)
 	end

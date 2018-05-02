@@ -38,6 +38,7 @@ function blockDeclaration.declareBlock ( texture, name, hardness, tool, drops, s
 	blocks[name] = { name=name, drops=drops, hardness=hardness, tool=tool, solid=solid }
 	if texture then
 		blocks[name]["texture"] = love.graphics.newImage( "assets/blocks/" .. texture .. ".png" )
+		blocks[name]["texture"]:setFilter("nearest")
 	end
 
 	return blocks

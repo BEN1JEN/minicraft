@@ -14,7 +14,7 @@ function worldFunc.getBlock(x, y)
 
 	if world[x] then
 		if world[x][y] then
-			returnValue = world[x][y]
+			returnValue = world[x][y]["block"]
 		end
 	end
 	if not( returnValue ) then
@@ -32,7 +32,7 @@ function worldFunc.setBlock(x, y, block)
 	--set block
 	if world[x] then
 		if world[x][y] then
-			world[x][y] = blocks[block]
+			world[x][y]["block"] = blocks[block]
 			returnValue = true
 		end
 	end

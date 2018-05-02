@@ -141,7 +141,7 @@ end
 
 function worldGen.genarate(biome, xMin, xMax)
 
-		print(biome.name)
+		-- print(biome.name) --debug code
 
 	for x = xMin, xMax do
 		world[x] = {}
@@ -150,7 +150,7 @@ function worldGen.genarate(biome, xMin, xMax)
 	for x = xMin, xMax do
 		for y = 0, 1024 do
 
-				world[x][y] = blocks.air
+				world[x][y] = {block=blocks.air, waterLevel=0, blockData={}}
 				--print("set block X:" .. x .. ", Y" .. y .. " to:" .. "air")
 
 		end

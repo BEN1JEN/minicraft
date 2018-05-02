@@ -41,8 +41,6 @@ function love.load()
 	local misc = require "func.misc"
 	local chatFunc = require "func.chat"
 
-	print(misc.parse("hello my name is *name", {{"*name", "bobby"}}))
-
 	--math.randomseed
 	seed = startTime%2^24
 	--seed = 88888888888
@@ -69,7 +67,7 @@ function love.load()
 	-- initalize inventorty
 	inventory = inventoryFunc.init(inventory)
 
-print("done loading in " .. os.time() - startTime .. "ms")
+print("done loading in " .. os.time() - startTime .. "s")
 
 
 end
@@ -135,9 +133,9 @@ function love.draw()
 	if state == "game" or state == "pano" then
 		fps = math.floor(fps/2)*2
 
-		love.graphics.setColor(66, 173, 173, 255)
+		love.graphics.setColor(0.25, 0.68, 0.68, 1)
 		love.graphics.polygon("fill", 0, 0, 6144, 0, 6144, 1440, 0, 1440)
-		love.graphics.setColor(255, 255, 255, 255)
+		love.graphics.setColor(1, 1, 1, 1)
 		-- print ("1/4") --debug code
 		if state == "pano" then
 			draw.drawWorld(520)

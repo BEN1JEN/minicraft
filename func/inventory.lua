@@ -7,10 +7,10 @@ function inventoryFunc.draw()
 	local itemRealX, itemRealY = math.floor((mouseX+20)/40+.5)*40-20, math.floor((mouseY)/40+.5)*40
 
 	-- draw inventory
-	love.graphics.setColor(128,128,128,255)
+	love.graphics.setColor(0.5, 0.5, 0.5, 1)
 	love.graphics.polygon( "fill", 720, 260, 720, 460, 320, 460, 320, 260 )
 
-	love.graphics.setColor(255, 255, 255, 128)
+	love.graphics.setColor(1, 1, 1, 0.5)
 	if itemRealX >= 340 and itemRealY >= 280 and itemRealX <= 700 and itemRealY <= 440 then
 		love.graphics.polygon( "fill", itemRealX+20, itemRealY+20, itemRealX+20, itemRealY-20, itemRealX-20, itemRealY-20, itemRealX-20, itemRealY+20 )
 	end
@@ -68,18 +68,15 @@ function inventoryFunc.update()
 
 				if love.mouse.isDown(1) then
 					if inventory[itemX][itemY]["ID"] ~= itemGrabed["ID"] then
-						print("swap")
 						local tmp = itemGrabed
 						itemGrabed = inventory[itemX][itemY]
 						inventory[itemX][itemY] = tmp
 					elseif inventory[itemX][itemY]["ID"] == itemGrabed["ID"] then
-						print("add")
 						inventory[itemX][itemY]["amount"] = inventory[itemX][itemY]["amount"] + itemGrabed["amount"]
 						itemGrabed["amount"], itemGrabed["ID"], itemGrabed["name"] = 0, 0, ""
 					end
 				elseif love.mouse.isDown(2) then
 					if itemGrabed["ID"] == inventory[itemX][itemY]["ID"] or ( inventory[itemX][itemY]["ID"] == 0 and itemGrabed["ID"] ~= 0 ) then
-						print("sub")
 						inventory[itemX][itemY]["ID"] = itemGrabed["ID"]
 						inventory[itemX][itemY]["amount"] = inventory[itemX][itemY]["amount"] + 1
 						itemGrabed["amount"] = itemGrabed["amount"] - 1
@@ -87,7 +84,6 @@ function inventoryFunc.update()
 						if itemGrabed["amount"] == 0 then itemGrabed["ID"] = 0 itemGrabed["name"] = "" end
 						if inventory[itemX][itemY]["amount"] == 0 then itemGrabed["ID"] = 0 itemGrabed["name"] = "" end
 					elseif itemGrabed["ID"] == 0 and inventory[itemX][itemY]["ID"] ~= 0 then
-						print("dev")
 						itemGrabed["ID"] = inventory[itemX][itemY]["ID"]
 						itemGrabed["amount"] = math.floor(inventory[itemX][itemY]["amount"]/2)
 						inventory[itemX][itemY]["amount"] = math.ceil(inventory[itemX][itemY]["amount"]/2)
@@ -123,10 +119,10 @@ function inventoryFunc.drawHotbar()
 		local itemX, itemY = ((mouseX+300)/40-15), 6-((mouseY+240)/40-12)
 		local itemRealX, itemRealY = math.floor((mouseX+20)/40+.5)*40-20, math.floor((mouseY+20)/40+.5)*40-20
 
-		love.graphics.setColor(128,128,128,255)
+		love.graphics.setColor(0.5, 0.5, 0.5, 1)
 		love.graphics.polygon( "fill", 720, 680, 720, 720, 320, 720, 320, 680 )
 
-		love.graphics.setColor(255, 255, 255, 128)
+		love.graphics.setColor(1, 1, 1, 0.5)
 		if itemRealX >= 340 and itemRealY >= 680 and itemRealX <= 700 and itemRealY <= 720 then
 			love.graphics.polygon( "fill", itemRealX+20, itemRealY+20, itemRealX+20, itemRealY-20, itemRealX-20, itemRealY-20, itemRealX-20, itemRealY+20 )
 		end
