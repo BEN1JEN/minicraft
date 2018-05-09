@@ -44,8 +44,6 @@ function worldInteraction.update(hotBarSelect)
 		mDownLast = false
 	end
 
-	return world, inventory
-
 end
 
 return worldInteraction
