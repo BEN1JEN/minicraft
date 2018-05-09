@@ -108,7 +108,6 @@ function love.load( args )
 	biome = biomes.plains
 
 	--genarate world
-	world = {}
 	worldGen.genarate(biomes.plains, -10, 10)
 
 	--set player location
@@ -164,7 +163,7 @@ function love.update(dt)
 			inventoryFunc.update()
 
 			if not(invOpen) then
-				world, inventory = worldInteraction.update(hotBarSelect)
+				worldInteraction.update(hotBarSelect)
 			end
 
 			worldGen.updateWorld()
